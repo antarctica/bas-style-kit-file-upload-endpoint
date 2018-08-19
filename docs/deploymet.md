@@ -1,4 +1,4 @@
-To be merged into main README.md
+# Deployment
 
 To push an application release (Docker image) to Heroku:
 
