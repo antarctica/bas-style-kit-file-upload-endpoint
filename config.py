@@ -1,9 +1,12 @@
 import os
 import logging
 from logging import StreamHandler
-
+from dotenv import load_dotenv
 
 class Config(object):
+    dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+    if os.path.exists(dotenv_path):
+        load_dotenv(dotenv_path)
     APP_ENDPOINT_BASE = os.environ.get('APP_ENDPOINT_BASE')
 
     def init_app(self, app):
