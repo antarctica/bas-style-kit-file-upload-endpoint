@@ -4,6 +4,7 @@ from uuid import uuid4
 
 main = Blueprint('main', __name__)
 
+
 def error_no_file(field):
     app.logger.warning(f"[{ field }] field missing in request")
 
@@ -14,6 +15,7 @@ def error_no_file(field):
         'detail': 'Check the name of the field and that the request uses multipart/form-data encoding'
     }
 
+
 def error_no_file_selection(field):
     app.logger.warning(f"[{ field }] field value is an empty selection")
 
@@ -23,6 +25,7 @@ def error_no_file_selection(field):
         'title': f"[{ field }] field value is an empty selection",
         'detail': 'Check the file selected is specified correctly and is a valid file'
     }
+
 
 def error_too_large(maximum_size, request_size):
     app.logger.warning(f"Request content length, [{ request_size }], is too great")
@@ -38,6 +41,7 @@ def error_too_large(maximum_size, request_size):
         }
     }
 
+
 def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
     app.logger.warning(f"File type uploaded, [{ invalid_mime_type }], is not allowed")
 
@@ -52,6 +56,7 @@ def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
         }
     }
 
+
 def common_single_file():
     if 'file' not in request.files:
         payload = {'errors': [error_no_file('file')]}
@@ -64,6 +69,7 @@ def common_single_file():
 
     return file
 
+
 @main.route("/")
 def index():
     payload = {
@@ -74,10 +80,11 @@ def index():
 
     return jsonify(payload)
 
+
 @main.route('/upload-single', methods=['post'])
 def upload_single():
     common_single_file()
-    return ('', HTTPStatus.NO_CONTENT)
+    return '', HTTPStatus.NO_CONTENT
 
 
 @main.route('/upload-multiple', methods=['post'])
@@ -93,7 +100,7 @@ def upload_multiple():
             payload = {'errors': [error_no_file_selection('file')]}
             abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
 
-    return ('', HTTPStatus.NO_CONTENT)
+    return '', HTTPStatus.NO_CONTENT
 
 
 @main.route('/upload-single-restricted-size', methods=['post'])
@@ -106,7 +113,7 @@ def upload_single_restricted_size():
         abort(make_response(jsonify(payload), HTTPStatus.REQUEST_ENTITY_TOO_LARGE))
 
     common_single_file()
-    return ('', HTTPStatus.NO_CONTENT)
+    return '', HTTPStatus.NO_CONTENT
 
 
 @main.route('/upload-single-restricted-mime-types', methods=['post'])
@@ -120,4 +127,4 @@ def upload_single_restricted_mime_types():
         payload = {'errors': [error_wrong_mime_type(allowed_content_types, file_content_type)]}
         abort(make_response(jsonify(payload), HTTPStatus.UNSUPPORTED_MEDIA_TYPE))
 
-    return ('', HTTPStatus.NO_CONTENT)
+    return '', HTTPStatus.NO_CONTENT
