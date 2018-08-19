@@ -12,7 +12,7 @@ sentry = Sentry()
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
-    config[config_name].init_app(None, app)
+    config[config_name].init_app(app)
 
     if app.config['APP_ENABLE_SENTRY']:
         sentry.init_app(app, logging=True, level=logging.WARNING)
