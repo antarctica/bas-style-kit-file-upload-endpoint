@@ -7,7 +7,10 @@ class Config(object):
     dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
     if os.path.exists(dotenv_path):
         load_dotenv(dotenv_path)
+
+    DEBUG = False
     APP_ENDPOINT_BASE = os.environ.get('APP_ENDPOINT_BASE')
+    MAX_CONTENT_LENGTH = os.environ.get('APP_MAX_UPLOAD_BYTES') or 10 * 1024 * 1024  # 10MB
 
     def init_app(self, app):
         # Log to stderr
@@ -17,12 +20,16 @@ class Config(object):
 
 
 class DevelopmentConfig(Config):
-    APP_ENDPOINT_BASE = os.environ.get('APP_ENDPOINT_BASE') or 'http://localhost:9000'
-    MAX_CONTENT_LENGTH = 10 * 1024 * 1024  # 10MB
     DEBUG = True
+    APP_ENDPOINT_BASE = os.environ.get('APP_ENDPOINT_BASE') or 'http://localhost:9000'
+
+
+class ProductionConfig(Config):
+    pass
 
 
 config = {
     'development': DevelopmentConfig,
-    'default': DevelopmentConfig
+    'production': ProductionConfig,
+    'default': ProductionConfig
 }
