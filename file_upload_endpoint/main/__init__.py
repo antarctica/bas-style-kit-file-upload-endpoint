@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, abort
+from flask import Blueprint, request, make_response, jsonify, abort
 from http import HTTPStatus
 from uuid import uuid4
 
@@ -46,12 +46,12 @@ def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
 def common_single_file():
     if 'file' not in request.files:
         payload = {'errors': [error_no_file('file')]}
-        return jsonify(payload), HTTPStatus.BAD_REQUEST
+        abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
 
     file = request.files['file']
     if file.filename == '':
         payload = {'errors': [error_no_file_selection('file')]}
-        return jsonify(payload), HTTPStatus.BAD_REQUEST
+        abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
 
     return file
 
@@ -77,12 +77,12 @@ def upload_multiple():
 
     if len(files) <= 0:
         payload = {'errors': [error_no_file('files')]}
-        return jsonify(payload), HTTPStatus.BAD_REQUEST
+        abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
 
     for file in files:
         if file.filename == '':
             payload = {'errors': [error_no_file_selection('file')]}
-            return jsonify(payload), HTTPStatus.BAD_REQUEST
+            abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
 
     return ('', HTTPStatus.NO_CONTENT)
 
@@ -94,7 +94,7 @@ def upload_single_restricted_size():
     upload_limit = 1024 * 1024  # 1MB
     if content_length is not None and content_length > upload_limit:
         payload = {'errors': [error_too_large(upload_limit)]}
-        return jsonify(payload), HTTPStatus.REQUEST_ENTITY_TOO_LARGE
+        abort(make_response(jsonify(payload), HTTPStatus.REQUEST_ENTITY_TOO_LARGE))
 
     common_single_file()
     return ('', HTTPStatus.NO_CONTENT)
@@ -109,6 +109,6 @@ def upload_single_restricted_mime_types():
 
     if file_content_type not in allowed_content_types:
         payload = {'errors': [error_wrong_mime_type(allowed_content_types, file_content_type)]}
-        return jsonify(payload), HTTPStatus.UNSUPPORTED_MEDIA_TYPE
+        abort(make_response(jsonify(payload), HTTPStatus.UNSUPPORTED_MEDIA_TYPE))
 
     return ('', HTTPStatus.NO_CONTENT)
