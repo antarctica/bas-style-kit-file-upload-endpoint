@@ -8,4 +8,4 @@ if 'FLASK_ENV' in os.environ:
 app = create_app(env)
 
 if 'PYCHARM_HOSTED' in os.environ:
-    app.run(host='0.0.0.0', port=9000, debug=True, use_debugger=False, use_reloader=False)
+    app.run(host='0.0.0.0', port=9001, debug=True, use_debugger=False, use_reloader=False)
