@@ -7,7 +7,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 ENV PYTHONPATH /usr/src/app
 ENV FLASK_APP manage.py
-ENV FLASK_ENV development
+ENV FLASK_ENV production
 
 # Setup project dependencies
 COPY requirements.txt /usr/src/app/
