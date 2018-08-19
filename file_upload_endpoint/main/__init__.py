@@ -1,10 +1,12 @@
-from flask import Blueprint, request, make_response, jsonify, abort
+from flask import Blueprint, request, make_response, jsonify, abort, current_app as app
 from http import HTTPStatus
 from uuid import uuid4
 
 main = Blueprint('main', __name__)
 
 def error_no_file(field):
+    app.logger.warning(f"[{ field }] field missing in request")
+
     return {
         'id': uuid4(),
         'status': HTTPStatus.BAD_REQUEST,
@@ -13,6 +15,8 @@ def error_no_file(field):
     }
 
 def error_no_file_selection(field):
+    app.logger.warning(f"[{ field }] field value is an empty selection")
+
     return {
         'id': uuid4(),
         'status': HTTPStatus.BAD_REQUEST,
@@ -21,6 +25,8 @@ def error_no_file_selection(field):
     }
 
 def error_too_large(maximum_size, request_size):
+    app.logger.warning(f"Request content length, [{ request_size }], is too great")
+
     return {
         'id': uuid4(),
         'status': HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
@@ -33,6 +39,8 @@ def error_too_large(maximum_size, request_size):
     }
 
 def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
+    app.logger.warning(f"File type uploaded, [{ invalid_mime_type }], is not allowed")
+
     return {
         'id': uuid4(),
         'status': HTTPStatus.UNSUPPORTED_MEDIA_TYPE,
