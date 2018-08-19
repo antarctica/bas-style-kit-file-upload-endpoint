@@ -9,6 +9,6 @@ services:
       - .:/usr/src/app
     environment:
       - PORT=9001
-      - APP_ENDPOINT_BASE=http://localhost:9001
+      - FLASK_ENV=development
     ports:
       - 9001:9001

@@ -1,18 +1,24 @@
-from flask import Blueprint, request, jsonify, abort
+from flask import Blueprint, request, make_response, jsonify, abort, current_app as app
 from http import HTTPStatus
 from uuid import uuid4
 
 main = Blueprint('main', __name__)
 
+
 def error_no_file(field):
+    app.logger.warning(f"[{ field }] field missing in request")
+
     return {
         'id': uuid4(),
         'status': HTTPStatus.BAD_REQUEST,
         'title': f"[{ field }] field missing in request",
-        'detail': 'Check the name of the field and that the request is multipart/form-data'
+        'detail': 'Check the name of the field and that the request uses multipart/form-data encoding'
     }
 
+
 def error_no_file_selection(field):
+    app.logger.warning(f"[{ field }] field value is an empty selection")
+
     return {
         'id': uuid4(),
         'status': HTTPStatus.BAD_REQUEST,
@@ -20,40 +26,49 @@ def error_no_file_selection(field):
         'detail': 'Check the file selected is specified correctly and is a valid file'
     }
 
-def error_too_large(maximum_size):
+
+def error_too_large(maximum_size, request_size):
+    app.logger.warning(f"Request content length, [{ request_size }], is too great")
+
     return {
         'id': uuid4(),
         'status': HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
-        'title': 'The file uploaded is too large',
-        'detail': 'Check the contnet_length of the request is less than the maximum allowed',
+        'title': 'Request content_length is too great',
+        'detail': 'Check the content_length of the request is less than the maximum allowed',
         'meta': {
-            'maximum_content_length_allowed': maximum_size
+            'maximum_content_length_allowed': maximum_size,
+            'request_content_length': request_size
         }
     }
 
+
 def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
+    app.logger.warning(f"File type uploaded, [{ invalid_mime_type }], is not allowed")
+
     return {
         'id': uuid4(),
         'status': HTTPStatus.UNSUPPORTED_MEDIA_TYPE,
-        'title': 'The file type uploaded is not allowed',
-        'detail': 'check the mime_type of the file is in the list of allowed types',
+        'title': 'File type uploaded is not allowed',
+        'detail': 'Check the file mime_type is in the list of allowed types',
         'meta': {
             'allowed_mime_types': valid_mime_types,
             'instance_mime_type': invalid_mime_type
         }
     }
 
+
 def common_single_file():
     if 'file' not in request.files:
         payload = {'errors': [error_no_file('file')]}
-        return jsonify(payload), HTTPStatus.BAD_REQUEST
+        abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
 
     file = request.files['file']
     if file.filename == '':
         payload = {'errors': [error_no_file_selection('file')]}
-        return jsonify(payload), HTTPStatus.BAD_REQUEST
+        abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
 
     return file
+
 
 @main.route("/")
 def index():
@@ -65,10 +80,11 @@ def index():
 
     return jsonify(payload)
 
+
 @main.route('/upload-single', methods=['post'])
 def upload_single():
     common_single_file()
-    return ('', HTTPStatus.NO_CONTENT)
+    return '', HTTPStatus.NO_CONTENT
 
 
 @main.route('/upload-multiple', methods=['post'])
@@ -77,27 +93,27 @@ def upload_multiple():
 
     if len(files) <= 0:
         payload = {'errors': [error_no_file('files')]}
-        return jsonify(payload), HTTPStatus.BAD_REQUEST
+        abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
 
     for file in files:
         if file.filename == '':
             payload = {'errors': [error_no_file_selection('file')]}
-            return jsonify(payload), HTTPStatus.BAD_REQUEST
+            abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
 
-    return ('', HTTPStatus.NO_CONTENT)
+    return '', HTTPStatus.NO_CONTENT
 
 
 @main.route('/upload-single-restricted-size', methods=['post'])
 def upload_single_restricted_size():
-    # Reject uploads larger than 1MB
     content_length = request.content_length
-    upload_limit = 1024 * 1024  # 1MB
+    upload_limit = 1024 * 200  # 200KB
+
     if content_length is not None and content_length > upload_limit:
-        payload = {'errors': [error_too_large(upload_limit)]}
-        return jsonify(payload), HTTPStatus.REQUEST_ENTITY_TOO_LARGE
+        payload = {'errors': [error_too_large(upload_limit, content_length)]}
+        abort(make_response(jsonify(payload), HTTPStatus.REQUEST_ENTITY_TOO_LARGE))
 
     common_single_file()
-    return ('', HTTPStatus.NO_CONTENT)
+    return '', HTTPStatus.NO_CONTENT
 
 
 @main.route('/upload-single-restricted-mime-types', methods=['post'])
@@ -109,6 +125,6 @@ def upload_single_restricted_mime_types():
 
     if file_content_type not in allowed_content_types:
         payload = {'errors': [error_wrong_mime_type(allowed_content_types, file_content_type)]}
-        return jsonify(payload), HTTPStatus.UNSUPPORTED_MEDIA_TYPE
+        abort(make_response(jsonify(payload), HTTPStatus.UNSUPPORTED_MEDIA_TYPE))
 
-    return ('', HTTPStatus.NO_CONTENT)
+    return '', HTTPStatus.NO_CONTENT
