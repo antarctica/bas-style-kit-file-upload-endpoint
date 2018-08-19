@@ -9,7 +9,7 @@ def error_no_file(field):
         'id': uuid4(),
         'status': HTTPStatus.BAD_REQUEST,
         'title': f"[{ field }] field missing in request",
-        'detail': 'Check the name of the field and that the request is multipart/form-data'
+        'detail': 'Check the name of the field and that the request uses multipart/form-data encoding'
     }
 
 def error_no_file_selection(field):
@@ -24,8 +24,8 @@ def error_too_large(maximum_size, request_size):
     return {
         'id': uuid4(),
         'status': HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
-        'title': 'The file uploaded is too large',
-        'detail': 'Check the contnet_length of the request is less than the maximum allowed',
+        'title': 'Request content_length is too great',
+        'detail': 'Check the content_length of the request is less than the maximum allowed',
         'meta': {
             'maximum_content_length_allowed': maximum_size,
             'request_content_length': request_size
@@ -36,8 +36,8 @@ def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
     return {
         'id': uuid4(),
         'status': HTTPStatus.UNSUPPORTED_MEDIA_TYPE,
-        'title': 'The file type uploaded is not allowed',
-        'detail': 'check the mime_type of the file is in the list of allowed types',
+        'title': 'File type uploaded is not allowed',
+        'detail': 'Check the file mime_type is in the list of allowed types',
         'meta': {
             'allowed_mime_types': valid_mime_types,
             'instance_mime_type': invalid_mime_type
