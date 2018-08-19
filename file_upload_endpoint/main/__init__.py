@@ -20,14 +20,15 @@ def error_no_file_selection(field):
         'detail': 'Check the file selected is specified correctly and is a valid file'
     }
 
-def error_too_large(maximum_size):
+def error_too_large(maximum_size, request_size):
     return {
         'id': uuid4(),
         'status': HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
         'title': 'The file uploaded is too large',
         'detail': 'Check the contnet_length of the request is less than the maximum allowed',
         'meta': {
-            'maximum_content_length_allowed': maximum_size
+            'maximum_content_length_allowed': maximum_size,
+            'request_content_length': request_size
         }
     }
 
