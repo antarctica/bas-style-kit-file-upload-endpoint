@@ -1,6 +1,7 @@
-from flask import Blueprint, request, make_response, jsonify, abort, current_app as app
 from http import HTTPStatus
 from uuid import uuid4
+
+from flask import Blueprint, request, make_response, jsonify, abort, current_app as app
 
 main = Blueprint('main', __name__)
 
