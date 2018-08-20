@@ -11,4 +11,4 @@ COPY config.py manage.py /usr/src/app/
 
 # Setup runtime
 ENTRYPOINT []
-CMD flask run --host 0.0.0.0 --port $PORT
+CMD waitress-serve --port=$PORT manage:app
