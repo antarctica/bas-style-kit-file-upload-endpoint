@@ -11,9 +11,12 @@
 stages:
   - build
 
+services:
+  - docker:dind
+
 variables:
   APP_NAME: bas-style-kit-file-upload-endpoint
-  DOCKER_HOST: tcp://localhost:2375/
+  DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
 
 # == Jobs ==
