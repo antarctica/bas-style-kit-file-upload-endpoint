@@ -1,0 +1,45 @@
+---
+
+# == Notes ==
+
+# - GitLab automatically passes artifacts from previous stages by default
+# - This project requires runners with specific tags to execute specific jobs
+# - This project includes variables specific to using 'Docker In Docker'
+# - Set required secret variables at: https://gitlab.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint/settings/ci_cd
+
+# = Secret variables
+# - Variables are grouped by section in KEY: "value" format (e.g. FOO: "bar")
+#   Sensetive values are represented by "[Sensetive]"
+#
+# - Heroku
+# > HEROKU_API_KEY: "[Sensetive]"
+
+# == Global settings ==
+
+stages:
+  - build
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  GITLAB_REGISTRY: docker-registry.data.bas.ac.uk
+  APP_NAME: bas-style-kit-file-upload-endpoint
+  HEROKU_APP_NAME: bas-style-kit-file-upload
+
+# == Jobs ==
+
+build-heroku-image:
+  stage: build
+  script:
+    - "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $GITLAB_REGISTRY"
+    - "docker login -u _ -p $HEROKU_API_KEY registry.heroku.com"
+    - "docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.heroku ."
+    - "docker push registry.heroku.com/$HEROKU_APP_NAME/web"
+    - "docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME"
+  tags:
+    - dnd
+  only:
+    - master
