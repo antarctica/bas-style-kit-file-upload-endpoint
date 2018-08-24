@@ -39,8 +39,6 @@ build-heroku-image:
     - "docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.heroku ."
     - "docker push registry.heroku.com/$HEROKU_APP_NAME/web"
     - "docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME"
-    - "docker run --entrypoint ls --rm registry.heroku.com/bas-style-kit-file-upload/web"
-    - "ls"
   tags:
     - dnd
   # only:
