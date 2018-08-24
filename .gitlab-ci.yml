@@ -41,5 +41,5 @@ build-heroku-image:
     - "docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME"
   tags:
     - dnd
-  # only:
-  #   - master
+  only:
+    - master
