@@ -3,6 +3,8 @@
 # == Notes ==
 
 # - GitLab automatically passes artifacts from previous stages by default
+# - This project requires runners with specific tags to execute specific jobs
+# - This project includes variables specific to using 'Docker In Docker'
 
 # == Global settings ==
 
@@ -11,10 +13,12 @@ stages:
 
 variables:
   APP_NAME: bas-style-kit-file-upload-endpoint
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
 
 # == Jobs ==
 
-node-dependencies-app:
+build-heroku-image:
   stage: build
   script:
     - "docker build -t registry.heroku.com/bas-style-kit-file-upload/web -f Dockerfile.heroku ."
