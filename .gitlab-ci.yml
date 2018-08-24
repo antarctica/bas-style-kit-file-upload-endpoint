@@ -24,9 +24,8 @@ variables:
 build-heroku-image:
   stage: build
   script:
-    - "docker run hello-world"
-    # - "docker build -t registry.heroku.com/bas-style-kit-file-upload/web -f Dockerfile.heroku ."
-    # - "docker images"
+    - "docker build -t registry.heroku.com/bas-style-kit-file-upload/web -f Dockerfile.heroku ."
+    - "docker images"
   tags:
     - dnd
   # only:
