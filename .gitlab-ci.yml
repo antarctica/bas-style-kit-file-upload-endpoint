@@ -1,0 +1,25 @@
+---
+
+# == Notes ==
+
+# - GitLab automatically passes artifacts from previous stages by default
+
+# == Global settings ==
+
+stages:
+  - build
+
+variables:
+  APP_NAME: bas-style-kit-file-upload-endpoint
+
+# == Jobs ==
+
+node-dependencies-app:
+  stage: build
+  script:
+    - "docker build -t registry.heroku.com/bas-style-kit-file-upload/web -f Dockerfile.heroku ."
+    - "docker images"
+  tags:
+    - dnd
+  # only:
+  #   - master
