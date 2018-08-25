@@ -54,3 +54,10 @@ def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
             'instance_mime_type': invalid_mime_type
         }
     }
+
+
+def error_handler_request_entity_too_large(e):
+    content_length = request.content_length
+    upload_limit = app.config['MAX_CONTENT_LENGTH']
+    payload = {'errors': [error_too_large(upload_limit, content_length)]}
+    return make_response(jsonify(payload), HTTPStatus.REQUEST_ENTITY_TOO_LARGE)

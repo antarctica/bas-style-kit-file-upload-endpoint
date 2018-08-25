@@ -6,6 +6,7 @@ from flask_cors import CORS
 
 from config import config
 from file_upload_endpoint.main import main as main_blueprint
+from file_upload_endpoint.main.errors import error_handler_request_entity_too_large
 
 sentry = Sentry()
 
@@ -14,6 +15,8 @@ def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
+
+    app.register_error_handler(413, error_handler_request_entity_too_large)
 
     if app.config['APP_ENABLE_SENTRY']:
         sentry.init_app(app, logging=True, level=logging.WARNING)
