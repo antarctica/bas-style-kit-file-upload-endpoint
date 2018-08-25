@@ -25,7 +25,8 @@ def common_single_file():
 def index():
     payload = {
         'meta': {
-            'summary': 'Simple form action endpoint for testing file upload components in the BAS Style Kit.'
+            'summary': 'A minimal API implementing a simple form action for testing file upload components in the BAS '
+                       'Style Kit. '
         }
     }
 
