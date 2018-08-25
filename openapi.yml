@@ -1,0 +1,578 @@
+openapi: "3.0.0"
+info:
+  version: "1"
+  title: "BAS Style Kit - File Upload Endpoint"
+  description: >
+    A minimal API implementing a simple form action for testing file upload components in the BAS Style Kit.
+  license:
+    name: "Open Government Licence 3.0"
+    url: "http://www.nationalarchives.gov.uk/doc/open-government-licence"
+  contact:
+    name: "API Support"
+    email: "servicedesk@bas.ac.uk"
+servers:
+  -
+    url: "https://bas-style-kit-file-upload.herokuapp.com"
+    description: "Production"
+components:
+  requestBodies:
+    file:
+      content:
+          multipart/form-data:
+            schema:
+              properties:
+                file:
+                  type: string
+                  format: binary
+            encoding:
+              file:
+                headers:
+                  Content-Length:
+                    description: "The maximum length of the request in bytes"
+                    schema:
+                      type: integer
+                      maximum: 10485760
+      required: True
+tags:
+  - name: upload
+    description: File upload
+  - name: index
+    description: Index
+paths:
+  /:
+    summary: "Index"
+    description: "High level summary of this API"
+    get:
+      tags:
+        - index
+      summary: "High level summary of this API"
+      operationId: "get-index"
+      responses:
+        200:
+          description: "Summary returned successfully"
+          content:
+            "application/json":
+              schema:
+                type: "object"
+                required:
+                  - meta
+                properties:
+                  meta:
+                    type: "object"
+                    required:
+                      - summary
+                    properties:
+                        summary:
+                          type: string
+                example:
+                  meta:
+                    summary: "A minimal API implementing a simple form action for testing file upload components in the BAS Style Kit."
+  /upload-single:
+    summary: "Upload single"
+    description: "Upload a single file"
+    post:
+      tags:
+        - upload
+      summary: "Upload a single file"
+      operationId: "post-upload-single"
+      requestBody:
+        $ref: '#/components/requestBodies/file'
+      responses:
+        204:
+          description: "Successful upload"
+        400:
+          description: "Unsuccessful upload"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                required:
+                  - errors
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - detail
+                        - id
+                        - status
+                        - title
+                      properties:
+                        detail:
+                          type: string
+                        id:
+                          type: integer
+                        status:
+                          type: string
+                        title:
+                          type: string
+                        meta:
+                          type: object
+                    example:
+                      -
+                        detail: "Check the name of the field and that the request uses multipart/form-data encoding"
+                        id: "[uuid]"
+                        status: 400
+                        title: "[file] field missing in request"
+                      -
+                        detail: "Check the file selected is specified correctly and is a valid file"
+                        id: "[uuid]"
+                        status: 400
+                        title: "[file] field value is an empty selection"
+        413:
+          description: "Request too big"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                required:
+                  - errors
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - detail
+                        - id
+                        - status
+                        - title
+                      properties:
+                        detail:
+                          type: string
+                        id:
+                          type: integer
+                        status:
+                          type: string
+                        title:
+                          type: string
+                        meta:
+                          type: object
+                    example:
+                      -
+                        detail: "Check the content_length of the request is less than the maximum allowed"
+                        id: "[uuid]"
+                        status: 413
+                        title: "Request content_length is too great"
+                        meta:
+                          maximum_content_length_allowed: 10485760
+                          request_content_length: 10896534
+    options:
+      tags:
+        - upload
+      summary: "Upload a single file [Preflight]"
+      operationId: "post-upload-single-preflight"
+      responses:
+        204:
+          description: "Preflight successful"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Allow:
+              schema:
+                type: string
+  /upload-multiple:
+    summary: "Upload multiple"
+    description: "Upload multiple files"
+    post:
+      tags:
+        - upload
+      summary: "Upload multiple files"
+      operationId: "post-upload-multiple"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+            encoding:
+              file:
+                headers:
+                  Content-Length:
+                    description: "The maximum length of the request in bytes"
+                    schema:
+                      type: integer
+                      maximum: 10485760
+        required: True
+      responses:
+        204:
+          description: "Successful upload"
+        400:
+          description: "Unsuccessful upload"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                required:
+                  - errors
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - detail
+                        - id
+                        - status
+                        - title
+                      properties:
+                        detail:
+                          type: string
+                        id:
+                          type: integer
+                        status:
+                          type: string
+                        title:
+                          type: string
+                        meta:
+                          type: object
+                    example:
+                      -
+                        detail: "Check the name of the field and that the request uses multipart/form-data encoding"
+                        id: "[uuid]"
+                        status: 400
+                        title: "[files] field missing in request"
+                      -
+                        detail: "Check the file selected is specified correctly and is a valid file"
+                        id: "[uuid]"
+                        status: 400
+                        title: "[files] field value is an empty selection"
+        413:
+          description: "Request too big"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                required:
+                  - errors
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - detail
+                        - id
+                        - status
+                        - title
+                      properties:
+                        detail:
+                          type: string
+                        id:
+                          type: integer
+                        status:
+                          type: string
+                        title:
+                          type: string
+                        meta:
+                          type: object
+                    example:
+                      -
+                        detail: "Check the content_length of the request is less than the maximum allowed"
+                        id: "[uuid]"
+                        status: 413
+                        title: "Request content_length is too great"
+                        meta:
+                          maximum_content_length_allowed: 10485760
+                          request_content_length: 10896534
+    options:
+      tags:
+        - upload
+      summary: "Upload multiple files [Preflight]"
+      operationId: "post-upload-multiple-preflight"
+      responses:
+        204:
+          description: "Preflight successful"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Allow:
+              schema:
+                type: string
+  /upload-single-restricted-size:
+    summary: "Upload single - restricted size"
+    description: "Upload a singe file with a lower than normal maximum size"
+    post:
+      tags:
+        - upload
+      summary: "Upload a singe file with a lower than normal maximum size"
+      operationId: "post-upload-single-restricted-size"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                file:
+                  type: string
+                  format: binary
+            encoding:
+              file:
+                headers:
+                  Content-Length:
+                    description: "The maximum length of the request in bytes"
+                    schema:
+                      type: integer
+                      maximum: 204800
+      responses:
+        204:
+          description: "Successful upload"
+        400:
+          description: "Unsuccessful upload"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                required:
+                  - errors
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - detail
+                        - id
+                        - status
+                        - title
+                      properties:
+                        detail:
+                          type: string
+                        id:
+                          type: integer
+                        status:
+                          type: string
+                        title:
+                          type: string
+                        meta:
+                          type: object
+                    example:
+                      -
+                        detail: "Check the name of the field and that the request uses multipart/form-data encoding"
+                        id: "[uuid]"
+                        status: 400
+                        title: "[file] field missing in request"
+                      -
+                        detail: "Check the file selected is specified correctly and is a valid file"
+                        id: "[uuid]"
+                        status: 400
+                        title: "[file] field value is an empty selection"
+        413:
+          description: "Request too big"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                required:
+                  - errors
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - detail
+                        - id
+                        - status
+                        - title
+                      properties:
+                        detail:
+                          type: string
+                        id:
+                          type: integer
+                        status:
+                          type: string
+                        title:
+                          type: string
+                        meta:
+                          type: object
+                    example:
+                      -
+                        detail: "Check the content_length of the request is less than the maximum allowed"
+                        id: "[uuid]"
+                        status: 413
+                        title: "Request content_length is too great"
+                        meta:
+                          maximum_content_length_allowed: 204800
+                          request_content_length: 1048576
+    options:
+      tags:
+        - upload
+      summary: "Upload a singe file with a lower than normal maximum size [Preflight]"
+      operationId: "post-upload-single-restricted-size-preflight"
+      responses:
+        204:
+          description: "Preflight successful"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Allow:
+              schema:
+                type: string
+  /upload-single-restricted-mime-types:
+    summary: "Upload single - restricted file types"
+    description: "Upload a single file restricted to a single file type (`image/jpeg`)"
+    post:
+      tags:
+        - upload
+      summary: "Upload a single file restricted to a single file type (`image/jpeg`)"
+      operationId: "post-upload-restricted-mime-type"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                file:
+                  type: string
+                  format: binary
+            encoding:
+              file:
+                contentType: image/jpeg
+                headers:
+                  Content-Length:
+                    description: "The maximum length of the request in bytes"
+                    schema:
+                      type: integer
+                      maximum: 204800
+      responses:
+        204:
+          description: "Successful upload"
+        400:
+          description: "Unsuccessful upload"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                required:
+                  - errors
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - detail
+                        - id
+                        - status
+                        - title
+                      properties:
+                        detail:
+                          type: string
+                        id:
+                          type: integer
+                        status:
+                          type: string
+                        title:
+                          type: string
+                        meta:
+                          type: object
+                    example:
+                      -
+                        detail: "Check the name of the field and that the request uses multipart/form-data encoding"
+                        id: "[uuid]"
+                        status: 400
+                        title: "[file] field missing in request"
+                      -
+                        detail: "Check the file selected is specified correctly and is a valid file"
+                        id: "[uuid]"
+                        status: 400
+                        title: "[file] field value is an empty selection"
+        413:
+          description: "Request too big"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                required:
+                  - errors
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - detail
+                        - id
+                        - status
+                        - title
+                      properties:
+                        detail:
+                          type: string
+                        id:
+                          type: integer
+                        status:
+                          type: string
+                        title:
+                          type: string
+                        meta:
+                          type: object
+                    example:
+                      -
+                        detail: "Check the content_length of the request is less than the maximum allowed"
+                        id: "[uuid]"
+                        status: 413
+                        title: "Request content_length is too great"
+                        meta:
+                          maximum_content_length_allowed: 10485760
+                          request_content_length: 10896534
+        415:
+          description: "Unsuccessful upload"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                required:
+                  - errors
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - detail
+                        - id
+                        - status
+                        - title
+                      properties:
+                        detail:
+                          type: string
+                        id:
+                          type: integer
+                        status:
+                          type: string
+                        title:
+                          type: string
+                        meta:
+                          type: object
+                    example:
+                      -
+                        detail: "Check the file mime_type is in the list of allowed types"
+                        id: "[uuid]"
+                        status: 415
+                        title: "File type uploaded is not allowed"
+                        meta:
+                          allowed_mime_types:
+                            - "image/jpeg"
+                          instance_mime_type: "image/png"
+    options:
+      tags:
+        - upload
+      summary: "Upload a single file restricted to a single file type [Preflight]"
+      operationId: "post-upload-restricted-mime-type-preflight"
+      responses:
+        204:
+          description: "Preflight successful"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Allow:
+              schema:
+                type: string
