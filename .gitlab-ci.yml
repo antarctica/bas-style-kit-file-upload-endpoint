@@ -20,9 +20,6 @@ stages:
   - package
   - deploy
 
-services:
-  - docker:dind
-
 variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
@@ -39,6 +36,8 @@ package-heroku:
     - "docker login -u _ -p $HEROKU_API_KEY registry.heroku.com"
     - "docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.heroku ."
     - "docker push registry.heroku.com/$HEROKU_APP_NAME/web"
+  services:
+    - docker:dind
   tags:
     - dnd
   only:
