@@ -17,7 +17,8 @@
 # == Global settings ==
 
 stages:
-  - build
+  - package
+  - deploy
 
 services:
   - docker:dind
@@ -31,15 +32,24 @@ variables:
 
 # == Jobs ==
 
-build-heroku-image:
-  stage: build
+package-heroku:
+  stage: package
   script:
     - "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $GITLAB_REGISTRY"
     - "docker login -u _ -p $HEROKU_API_KEY registry.heroku.com"
     - "docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.heroku ."
     - "docker push registry.heroku.com/$HEROKU_APP_NAME/web"
-    - "docker run --rm -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli container:release web --app $HEROKU_APP_NAME"
   tags:
     - dnd
+  only:
+    - master
+
+deploy-heroku:
+  stage: deploy
+  image:
+    name: wingrunr21/alpine-heroku-cli
+    entrypoint: [""]
+  script:
+    - "heroku container:release web --app $HEROKU_APP_NAME"
   only:
     - master
