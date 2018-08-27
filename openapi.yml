@@ -319,7 +319,7 @@ paths:
                     description: "The maximum length of the request in bytes"
                     schema:
                       type: integer
-                      maximum: 204800
+                      maximum: 40960
       responses:
         204:
           description: "Successful upload"
