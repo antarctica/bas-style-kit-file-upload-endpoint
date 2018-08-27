@@ -17,6 +17,7 @@
 # == Global settings ==
 
 stages:
+  - test
   - package
   - deploy
 
@@ -27,7 +28,16 @@ variables:
   APP_NAME: bas-style-kit-file-upload-endpoint
   HEROKU_APP_NAME: bas-style-kit-file-upload
 
+image:
+  name: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint:0.1.0-develop-alpine
+  entrypoint: [""]
+
 # == Jobs ==
+
+test-app:
+  stage: test
+  script:
+    - "flask test"
 
 package-heroku:
   stage: package
@@ -35,6 +45,9 @@ package-heroku:
     - dnd
   services:
     - docker:dind
+  image:
+    name: docker:stable-dind
+    entrypoint: [""]
   script:
     - "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $GITLAB_REGISTRY"
     - "docker login -u _ -p $HEROKU_API_KEY registry.heroku.com"
