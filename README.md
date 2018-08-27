@@ -2,19 +2,20 @@
 
 A minimal API implementing a simple form action for testing file upload components in the BAS Style Kit.
 
-**Note:** This API is not included in [api.bas.ac.uk](https://api.bas.ac.uk).
+**Note:** This API is not part of [api.bas.ac.uk](https://api.bas.ac.uk).
 
 ## Purpose
 
-The [BAS Style Kit](https://style-kit.web.bas.ac.uk) includes interactive components for file uploads. To develop these
-components, and to simulate various error states, a real service which will accept (or decline) uploads was needed.
+The [BAS Style Kit](https://style-kit.web.bas.ac.uk) includes interactive components for file uploads, to help develop 
+these components, and to simulate various error states, a real service which will accept (or decline) uploads was 
+needed to give realistic results.
 
-This API provides this service in the form of several endpoints configured with different behaviours including single
-and multiple uploads and errors such as files that are too large. This API is intentionally separate to the Style Kit
-to test cross origin requests, which are restricted by web browsers.
+This API provides a set of endpoints which can be used as form actions to test different situations including 
+single/multiple uploads and errors such as uploads that are too large. This API is intentionally separate to the Style 
+Kit to test cross origin requests, which are restricted by Web Browsers for security.
 
-**Note:** This API is not intended, and does not, store uploaded files. It is not intended to have any use beyond
-testing or demonstrating the file upload components in the Style Kit.
+**Note:** This API is not intended, and does not, store uploaded files. It is not intended for any use beyond testing 
+or demonstrating file upload components in the Style Kit.
 
 ## Usage
 
@@ -23,15 +24,18 @@ See the [Usage information](/docs/usage.md) for the various endpoints available 
 ## Implementation
 
 This API is implemented as a minimal Python Flask application. No information is persisted by this API, however logs
-may be captured depending on how the API is deployed or for [Error tracking(#error-tracking).
+may be captured depending on how the API is deployed or for [Error tracking](#error-tracking).
 
 ### Configuration
 
-Application configuration is set within `config.py`, with options defined within per-environment defaults or values set
-in configurations for each environment (determined using the `FLASK_ENV` environment variable).
+Application configuration is set within `config.py`. Options use global or per-environment defaults which can be 
+overridden if needed using environment variables, or a `.env` file (Dot ENV) file. 
 
-Values for most configuration options can be set using environment variables, or a `.env` file (dot ENV) file. A sample
-file (`.env.example`) describes how to set the options available and whether any are required.
+Options include values such as application secrets and feature flags, used to enable to disable features such as error
+logging.
+
+The application environment is set using the `FLASK_ENV` environment variable. A sample Dot ENV file, `.env.example`, 
+describes how to set any required, or frequently changed options. See `config.py` for all available options.
 
 ### Error tracking
 
@@ -42,16 +46,16 @@ To ensure the reliability of this API, server side errors, and unhandled client 
 
 ### Local development
 
-To setup a local copy of this API access to this repository and Docker/Docker Compose is required. 
+To setup a local copy of this API access to this repository and Docker & Docker Compose is required. 
 
-```
+```shell
 $ cd bas-style-kit-file-upload-endpoint
 ```
 
-If you have access to the [BAS GitLab instance](https://gitlab.data.bas.ac.uk) you can pull the application Docker 
+If you have access to the [BAS GitLab instance](https://gitlab.data.bas.ac.uk), you can pull the application Docker 
 image from the BAS Docker Registry. Otherwise you will need to build the Docker image locally.
 
-```
+```shell
 # If you have access to gitlab.data.bas.ac.uk
 $ docker login docker-registry.data.bas.ac.uk
 $ docker-compose pull
@@ -61,15 +65,15 @@ $ docker-compose build
 
 Copy `.env.example` to `.env` and edit the file to set at least any required (uncommented) options.
 
-To run the API using the Flask development server (where changes to source files will reload the server automatically):
+To run the API using the Flask development server (which reloads automatically if source files are changed):
 
-```
+```shell
 $ docker-compose up
 ```
 
-To run commands against the Flask application (such as integration tests):
+To run commands against the Flask application (such as [Integration tests](#integration-tests)):
 
-```
+```shell
 $ docker-compose run app flask [command]
 # E.g.
 $ docker-compose run app flask test
@@ -77,11 +81,11 @@ $ docker-compose run app flask test
 
 ### Heroku
 
-To setup the Heroku project for this application access to this repository, Heroku and Terraform is required.
+To setup the Heroku project for this application, access to this repository, Heroku and Terraform is required.
 
 **Note:** Make sure the `HEROKU_API_KEY` and `HEROKU_EMAIL` environment variables are set within your local shell.
 
-```
+```shell
 $ cd bas-style-kit-file-upload-endpoint
 $ cd provisioning/terraform
 $ docker-compose run terraform
@@ -103,30 +107,28 @@ This API is developed as a Flask application using the conventions outlined in t
 available from the Web & Applications Team).
 
 Environments and feature flags are used to control which elements of this application are enabled in different 
-situations. For example in the development environment Sentry error tracking is disabled and Flask's debug mode is on.
-Ensure appropriate [Configuration](#configuration) options are available for for more information.
+situations. For example in the development environment, Sentry error tracking is disabled and Flask's debug mode is on.
 
 New features should be implemented with appropriate [Configuration](#configuration) options available. Sensible defaults 
 for each environment, and if needed feature flags, should allow end-users to fine tune which features are enabled.
 
 **Note:** Ensure `.env.example` is kept up-to-date if any configuration options are added or changed.
 
-Ensure integration tests are written for any new feature, or changes to existing features, see [Testing](#testing) for
-more information.
+Ensure [Integration tests](#integration-tests) are written for any new feature, or changes to existing features.
 
 ### Code Style
 
-The PEP-8 style and formatting recommendations should be used for this project.
+PEP-8 style and formatting recommendations should be used for this project.
 
 ### Dependencies
 
 Python dependencies should be defined using Pip through the `requirements.txt` file. The Docker image is configured to
 install these dependencies into the application image for consistency across different environments. Dependencies should
-be periodically reviewed to update when new versions are released.
+be periodically reviewed and update as new versions are released.
 
 To add a new dependency:
 
-```
+```shell
 $ docker-compose run app ash
 $ pip install [dependency]==
 # this will display a list of available versions, add the latest to `requirements.txt`
@@ -137,7 +139,7 @@ $ docker-compose build
 
 If you have access to the BAS GitLab instance, push the Docker image to the BAS Docker Registry:
 
-```
+```shell
 $ docker login docker-registry.data.bas.ac.uk
 $ docker-compose push
 ```
@@ -146,15 +148,15 @@ $ docker-compose push
 
 ### Integration tests
 
-This project uses integration tests ensure functionality works as expected and to guard against regressions.
+This project uses integration tests to ensure features work as expected and to guard against regressions.
 
 The inbuilt Python [UnitTest](https://docs.python.org/3/library/unittest.html) library is used for running tests using 
-Flask's test framework. Test cases are defined in files within `tests/` and are automatically loaded and ran when using
-the `test` command added to the Flask CLI.
+Flask's test framework. Test cases are defined in files within `tests/` and are automatically loaded when using the 
+`test` custom Flask CLI command.
 
 To run existing tests manually:
 
-```
+```shell
 $ docker-compose run app flask test
 ```
 
