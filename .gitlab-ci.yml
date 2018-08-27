@@ -31,15 +31,15 @@ variables:
 
 package-heroku:
   stage: package
+  tags:
+    - dnd
+  services:
+    - docker:dind
   script:
     - "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $GITLAB_REGISTRY"
     - "docker login -u _ -p $HEROKU_API_KEY registry.heroku.com"
     - "docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.heroku ."
     - "docker push registry.heroku.com/$HEROKU_APP_NAME/web"
-  services:
-    - docker:dind
-  tags:
-    - dnd
   only:
     - master
 
