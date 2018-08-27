@@ -16,6 +16,15 @@ class AppTestCase(unittest.TestCase):
     def tearDown(self):
         self.app_context.pop()
 
+    def common_preflight(self, path):
+        response = self.client.options(path, headers={'origin': 'https://style-kit.web.bas.ac.uk'})
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertIn('access-control-allow-origin', response.headers)
+        self.assertEqual('https://style-kit.web.bas.ac.uk', response.headers['access-control-allow-origin'])
+        self.assertIn('allow', response.headers)
+        self.assertEqual(['OPTIONS', 'POST'], sorted(response.headers['allow'].split(', ')))
+
+
     def test_index(self):
         response = self.client.get('/')
         json_response = response.get_json()
@@ -35,6 +44,9 @@ class AppTestCase(unittest.TestCase):
             )
             self.assertEqual(response.status_code, HTTPStatus.NO_CONTENT)
 
+    def test_upload_single_preflight(self):
+        self.common_preflight('/upload-single')
+
     def test_upload_multiple(self):
         with open(os.path.join(os.path.dirname(__file__), 'static', 'uploads', 'valid.png'), 'rb') as file_upload: 
             request_data = {
@@ -46,6 +58,9 @@ class AppTestCase(unittest.TestCase):
                 data=request_data
             )
             self.assertEqual(response.status_code, HTTPStatus.NO_CONTENT)
+
+    def test_upload_multiple_preflight(self):
+        self.common_preflight('/upload-multiple')
 
     def test_upload_single_restricted_size(self):
         expected_error = {
@@ -85,6 +100,9 @@ class AppTestCase(unittest.TestCase):
 
             self.assertDictEqual(json_response['errors'][0], expected_error)
     
+    def test_upload_single_preflight(self):
+        self.common_preflight('/upload-single-restricted-size')
+
     def test_upload_single_restricted_mime_types(self):
         expected_error = {
             'detail': 'Check the file mime_type is in the list of allowed types',
@@ -117,3 +135,5 @@ class AppTestCase(unittest.TestCase):
             
             self.assertDictEqual(json_response['errors'][0], expected_error)
     
+    def test_upload_single_restricted_mime_types_preflight(self):
+        self.common_preflight('/upload-single-restricted-mime-types')
