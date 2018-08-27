@@ -13,7 +13,6 @@ class Config(object):
     APP_ENABLE_SENTRY = os.environ.get('APP_ENABLE_SENTRY') or True
     APP_ENABLE_CORS = os.environ.get('APP_ENABLE_CORS') or True
 
-    APP_ENDPOINT_BASE = os.environ.get('APP_ENDPOINT_BASE')
     MAX_CONTENT_LENGTH = os.environ.get('APP_MAX_UPLOAD_BYTES') or 10 * 1024 * 1024  # 10MB
     CORS_ALLOWED_ORIGINS = [
         'http://localhost:9000', 
@@ -42,7 +41,6 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEBUG = True
     APP_ENABLE_SENTRY = os.environ.get('APP_ENABLE_SENTRY') or False
-    APP_ENDPOINT_BASE = os.environ.get('APP_ENDPOINT_BASE') or 'http://localhost:9000'
 
 
 class ProductionConfig(Config):
