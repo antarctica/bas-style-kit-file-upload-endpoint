@@ -10,6 +10,7 @@ class Config(object):
         load_dotenv(dotenv_path)
 
     DEBUG = False
+    TESTING = False
     APP_ENABLE_SENTRY = os.environ.get('APP_ENABLE_SENTRY') or True
     APP_ENABLE_CORS = os.environ.get('APP_ENABLE_CORS') or True
 
@@ -42,6 +43,10 @@ class DevelopmentConfig(Config):
     DEBUG = True
     APP_ENABLE_SENTRY = os.environ.get('APP_ENABLE_SENTRY') or False
 
+class TestConfig(Config):
+    DEBUG = True
+    TESTING = True
+    APP_ENABLE_SENTRY = os.environ.get('APP_ENABLE_SENTRY') or False
 
 class ProductionConfig(Config):
     pass
@@ -50,5 +55,6 @@ class ProductionConfig(Config):
 config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig,
+    'testing': TestConfig,
     'default': ProductionConfig
 }
