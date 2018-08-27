@@ -32,8 +32,8 @@ def error_too_large(maximum_size, request_size):
     return {
         'id': uuid4(),
         'status': HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
-        'title': 'Request content_length is too great',
-        'detail': 'Check the content_length of the request is less than the maximum allowed',
+        'title': 'Request content length is too great',
+        'detail': 'Check the content length of the request is less than the maximum allowed',
         'meta': {
             'maximum_content_length_allowed': maximum_size,
             'request_content_length': request_size

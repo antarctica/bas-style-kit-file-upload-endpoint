@@ -151,10 +151,10 @@ paths:
                           type: object
                     example:
                       -
-                        detail: "Check the content_length of the request is less than the maximum allowed"
+                        detail: "Check the content length of the request is less than the maximum allowed"
                         id: "[uuid]"
                         status: 413
-                        title: "Request content_length is too great"
+                        title: "Request content length is too great"
                         meta:
                           maximum_content_length_allowed: 10485760
                           request_content_length: 10896534
@@ -274,10 +274,10 @@ paths:
                           type: object
                     example:
                       -
-                        detail: "Check the content_length of the request is less than the maximum allowed"
+                        detail: "Check the content length of the request is less than the maximum allowed"
                         id: "[uuid]"
                         status: 413
-                        title: "Request content_length is too great"
+                        title: "Request content length is too great"
                         meta:
                           maximum_content_length_allowed: 10485760
                           request_content_length: 10896534
@@ -394,10 +394,10 @@ paths:
                           type: object
                     example:
                       -
-                        detail: "Check the content_length of the request is less than the maximum allowed"
+                        detail: "Check the content length of the request is less than the maximum allowed"
                         id: "[uuid]"
                         status: 413
-                        title: "Request content_length is too great"
+                        title: "Request content length is too great"
                         meta:
                           maximum_content_length_allowed: 204800
                           request_content_length: 1048576
@@ -515,10 +515,10 @@ paths:
                           type: object
                     example:
                       -
-                        detail: "Check the content_length of the request is less than the maximum allowed"
+                        detail: "Check the content length of the request is less than the maximum allowed"
                         id: "[uuid]"
                         status: 413
-                        title: "Request content_length is too great"
+                        title: "Request content length is too great"
                         meta:
                           maximum_content_length_allowed: 10485760
                           request_content_length: 10896534
