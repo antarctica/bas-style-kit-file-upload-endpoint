@@ -58,7 +58,7 @@ def upload_multiple():
 @main.route('/upload-single-restricted-size', methods=['post'])
 def upload_single_restricted_size():
     content_length = request.content_length
-    upload_limit = 1024 * 200  # 200KB
+    upload_limit = 1024 * 40  # 40KB
 
     if content_length is not None and content_length > upload_limit:
         payload = {'errors': [error_too_large(upload_limit, content_length)]}
