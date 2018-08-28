@@ -2,7 +2,8 @@
 
 **Note:** This is temporary documentation, it will be replaced with external documentation soon.
 
-This API follows the [JSON API](http://jsonapi.org/format/1.0/) standard.
+This API follows the [JSON API](http://jsonapi.org/format/1.0/) standard, unless stated otherwise.
+
 ## Endpoints
 
 The endpoint for this API is `https://bas-style-kit-file-upload.herokuapp.com/`. 
