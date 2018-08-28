@@ -26,7 +26,7 @@ def index():
     payload = {
         'meta': {
             'summary': 'A minimal API implementing a simple form action for testing file upload components in the BAS '
-                       'Style Kit. '
+                       'Style Kit.'
         }
     }
 

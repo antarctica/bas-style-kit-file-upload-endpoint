@@ -24,7 +24,6 @@ class AppTestCase(unittest.TestCase):
         self.assertIn('allow', response.headers)
         self.assertEqual(['OPTIONS', 'POST'], sorted(response.headers['allow'].split(', ')))
 
-
     def test_index(self):
         response = self.client.get('/')
         json_response = response.get_json()
