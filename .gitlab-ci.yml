@@ -76,6 +76,7 @@ deploy-sentry:
     name: getsentry/sentry-cli
     entrypoint: [""]
   script:
+    - "sentry-cli releases new --finalize $CI_COMMIT_SHA"
     - "sentry-cli releases deploys $CI_COMMIT_SHA new -e production"
   only:
     - master
