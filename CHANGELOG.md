@@ -13,10 +13,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Sentry release tracking using a build argument in the Heroku Docker image set in CD
 * Sentry release deployment using the Snetry CLI as a job in CD
 * GitLab environment information for Heroku as a production environment
+* Documenting index request standalone methods in usage documentation
+* Documenting content-types, encoding and endpoints/access, error logging and support in usage documentation
 
 ### Fixed
 
 * Removing superfluous RUN statement in Dockerfile to create working directory
+* Added missing HTTP method/verbs to standalone methods in usage documentation
 
 ## 0.1.0 (2018-08-28)
 

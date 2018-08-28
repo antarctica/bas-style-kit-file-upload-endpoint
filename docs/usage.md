@@ -3,12 +3,27 @@
 **Note:** This is temporary documentation, it will be replaced with external documentation soon.
 
 This API follows the [JSON API](http://jsonapi.org/format/1.0/) standard.
+## Endpoints
+
+The endpoint for this API is `https://bas-style-kit-file-upload.herokuapp.com/`. 
+
+This API is only available over `HTTPS`.
+
+## Content Types
+
+This API supports the `application/json` content type only, unless stated otherwise.
+
+## Encoding
+
+This API supports, and assumes the use of, *UTF-8* character encoding, unless stated otherwise.
 
 ## Form actions
 
 The methods provided by this API are intended to be used as form actions. 
 
-You must use the `multipart/form-data` encoding type to submit files.
+You must use the `multipart/form-data` encoding type and content type to submit files.
+
+**Note:** Do not use the default `application/json` content type for form actions.
 
 E.g.
 
@@ -71,6 +86,17 @@ Many errors are used across the API and are documented centrally in this section
 
 The `id` property will vary with each error using a UUID version 4, the values shown are examples.
 
+**Note:** Errors are captured by an error tracking service, you don't need to report them unless you wish to provide 
+any additional information about an error.
+
+## Support
+
+No support is offered for this API, it is provided on an 'As Is' basis, without any guarantees as to its reliability or 
+performance. Limited, informal, support is offered for those using this API to test file upload components within the 
+BAS Style Kit. 
+
+Contact the [BAS Service Desk](mailto:servicedesk@bas.ac.uk) if this applies to you.
+
 ### `400 file field missing in request`
 
 ```json
@@ -128,7 +154,29 @@ This API has no resources.
 
 ## Standalone methods
 
-### `/upload-single`
+### [GET] `/`
+
+Gives a high level summary of this API.
+
+#### Request
+
+Type: Empty
+
+#### Response
+
+##### `200 - OK`
+
+Summary returned successfully.
+
+```
+{
+  "meta": {
+    "summary": "A minimal API implementing a simple form action for testing file upload components in the BAS Style Kit."
+  }
+}
+```
+
+### [POST] `/upload-single`
 
 Upload a single file.
 
@@ -159,7 +207,7 @@ See Common errors for:
 
 See [Common error](#413-request-entity-too-large)
 
-### `/upload-multiple`
+### [POST] `/upload-multiple`
 
 Upload multiple files.
 
@@ -192,7 +240,7 @@ See Common errors for:
 
 See [Common error](#413-request-entity-too-large)
 
-### `/upload-single-restricted-size`
+### [POST] `/upload-single-restricted-size`
 
 Upload a singe file with a lower than normal maximum size.
 
@@ -226,7 +274,7 @@ See Common errors for:
 
 See [Common error](#413-request-entity-too-large) (references to the `maximum_content_length_allowed` should be `40960`)
 
-### `/upload-single-restricted-mime-types`
+### [POST] `/upload-single-restricted-mime-types`
 
 Upload a single file restricted to a single file type (`image/jpeg`).
 
