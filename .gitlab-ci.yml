@@ -9,13 +9,16 @@
 
 # = Secret variables
 # - Variables are grouped by section in KEY: "value" format (e.g. FOO: "bar")
-#   Sensetive values are represented by "[Sensetive]"
+#   Sensitive values are represented by "[Sensitive]"
 #
 # - Heroku
-# > HEROKU_API_KEY: "[Sensetive]"
+# > HEROKU_API_KEY: "[Sensitive]"
 #
 # - Sentry
 # > SENTRY_AUTH_TOKEN: "[Sensetive]"
+#
+# - Snyk
+# > SNYK_TOKEN: "[Sensitive]"
 
 # == Global settings ==
 
@@ -43,6 +46,14 @@ test-app:
   stage: test
   script:
     - "flask test"
+
+test-app-dependencies:
+  stage: test
+  image: snyk/snyk-cli:latest
+  variables:
+    PROJECT_FOLDER: "$CI_PROJECT_DIR"
+  script:
+    - "snyk test"
 
 package-heroku:
   stage: package

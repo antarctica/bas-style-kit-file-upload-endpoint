@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
+* Snyk for checking Python dependency versions
 * Sentry environment tracking using the existing `FLASK_ENV` environment variable
 * Sentry release tracking using a build argument in the Heroku Docker image set in CD
 * Sentry release deployment using the Snetry CLI as a job in CD
