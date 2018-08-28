@@ -13,6 +13,9 @@
 #
 # - Heroku
 # > HEROKU_API_KEY: "[Sensetive]"
+#
+# - Sentry
+# > SENTRY_AUTH_TOKEN: "[Sensetive]"
 
 # == Global settings ==
 
@@ -27,6 +30,8 @@ variables:
   GITLAB_REGISTRY: docker-registry.data.bas.ac.uk
   APP_NAME: bas-style-kit-file-upload-endpoint
   HEROKU_APP_NAME: bas-style-kit-file-upload
+  SENTRY_ORG: antarctica
+  SENTRY_PROJECT: bsk-file-upload-endpoint
 
 image:
   name: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint:0.2.0-develop-alpine
@@ -63,5 +68,14 @@ deploy-heroku:
     entrypoint: [""]
   script:
     - "heroku container:release web --app $HEROKU_APP_NAME"
+  only:
+    - master
+deploy-sentry:
+  stage: deploy
+  image:
+    name: getsentry/sentry-cli
+    entrypoint: [""]
+  script:
+    - "sentry-cli releases deploys $CI_COMMIT_SHA new -e production"
   only:
     - master

@@ -17,6 +17,7 @@ class Config(object):
     MAX_CONTENT_LENGTH = os.environ.get('APP_MAX_UPLOAD_BYTES') or 10 * 1024 * 1024  # 10MB
 
     SENTRY_CONFIG = {}
+    SENTRY_CONFIG['environment'] = os.getenv('FLASK_ENV')
     if 'APP_RELEASE' in os.environ:
         SENTRY_CONFIG['release'] = os.environ.get('APP_RELEASE')
 
