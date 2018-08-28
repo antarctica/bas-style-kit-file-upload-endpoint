@@ -28,7 +28,7 @@ Requests with a content length greater than `10485760` bytes (*10mb*) will be re
 
 ## CORS
 
-This API supports [Cross Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+This API supports [Cross Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
 
 ### Preflight requests
 
@@ -60,7 +60,8 @@ In addition to the headers allowed in
 The wildcard (`*`) origin is not supported.
 
 **Note:** Only the relevant origin will be listed in the `Access-Control-Allow-Origin` header as not all browsers 
-support multiple values. A `Vary` header is set to indicate this value may change and cannot be cached.
+support multiple values. A `Vary` header is set to indicate this value may change on each response and should not be 
+cached.
 
 ## Errors
 
@@ -149,7 +150,7 @@ Submitted file received successfully.
 
 ##### `400 - Bad Request`
 
-See Common error for:
+See Common errors for:
 
 * [Missing file field](#400-file-field-missing-in-request)
 * [Empty file selection](#400-file-field-value-is-an-empty-selection)
@@ -216,7 +217,7 @@ Submitted file received successfully.
 
 ##### `400 - Bad Request`
 
-See Common error for:
+See Common errors for:
 
 * [Missing file field](#400-file-field-missing-in-request)
 * [Empty file selection](#400-file-field-value-is-an-empty-selection)
@@ -250,7 +251,7 @@ Submitted file received successfully.
 
 ##### `400 - Bad Request`
 
-See Common error for:
+See Common errors for:
 
 * [Missing file field](#400-file-field-missing-in-request)
 * [Empty file selection](#400-file-field-value-is-an-empty-selection)
