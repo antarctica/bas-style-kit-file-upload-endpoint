@@ -15,6 +15,11 @@ class Config(object):
     APP_ENABLE_CORS = os.environ.get('APP_ENABLE_CORS') or True
 
     MAX_CONTENT_LENGTH = os.environ.get('APP_MAX_UPLOAD_BYTES') or 10 * 1024 * 1024  # 10MB
+
+    SENTRY_CONFIG = []
+    if 'APP_RELEASE' in os.environ:
+        SENTRY_CONFIG['release'] = os.environ.get('APP_RELEASE')
+
     CORS_ALLOWED_ORIGINS = [
         'http://localhost:9000', 
         'https://style-kit-testbed.web.bas.ac.uk', 
