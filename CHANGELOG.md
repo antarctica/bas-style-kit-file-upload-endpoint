@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* Sentry release tracking using a build argument in the Heroku Docker image set in CD
+
 ## 0.1.0 (2018-08-28)
 
 ### Added
