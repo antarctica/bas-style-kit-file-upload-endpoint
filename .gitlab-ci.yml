@@ -50,7 +50,7 @@ test-app:
 test-app-dependencies:
   stage: test
   image: 
-    name: snyk/snyk-cli:npm
+    name: snyk/snyk-cli:python-3
     entrypoint: [""]
   script:
     - "snyk test"
