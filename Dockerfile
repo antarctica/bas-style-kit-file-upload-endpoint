@@ -3,8 +3,8 @@ FROM python:3.6-alpine
 LABEL maintainer = "Felix Fennell <felnne@bas.ac.uk>"
 
 # Setup project
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+
 ENV PYTHONPATH /usr/src/app
 ENV FLASK_APP manage.py
 ENV FLASK_ENV development
