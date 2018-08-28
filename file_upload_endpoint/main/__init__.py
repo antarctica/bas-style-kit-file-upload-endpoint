@@ -80,3 +80,13 @@ def upload_single_restricted_mime_types():
         abort(make_response(jsonify(payload), HTTPStatus.UNSUPPORTED_MEDIA_TYPE))
 
     return '', HTTPStatus.NO_CONTENT
+
+
+@main.route('/meta/errors/generic-bad-request')
+def meta_errors_generic_bad_request():
+    abort(HTTPStatus.BAD_REQUEST)
+
+
+@main.route('/meta/errors/generic-internal-server-error')
+def meta_errors_generic_internal_server_error():
+    abort(HTTPStatus.INTERNAL_SERVER_ERROR)

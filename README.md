@@ -119,6 +119,12 @@ for each environment, and if needed feature flags, should allow end-users to fin
 
 Ensure [Integration tests](#integration-tests) are written for any new feature, or changes to existing features.
 
+### Reserved routes
+
+These routes are reserved and **MUST NOT** be implemented:
+
+* `/meta/errors/generic-not-found` - used to test the behaviour of a genuine 'not found' URL
+
 ### Code Style
 
 PEP-8 style and formatting recommendations should be used for this project.
@@ -146,6 +152,20 @@ If you have access to the BAS GitLab instance, push the Docker image to the BAS 
 $ docker login docker-registry.data.bas.ac.uk
 $ docker-compose push
 ```
+
+### Internal request methods
+
+Some additional API endpoints are available for development/testing purposes. These endpoints are not documented 
+publicly and should not be relied upon outside of development or testing.
+
+#### [GET] `/meta/errors/generic-bad-request`
+
+Triggers a generic `400 - Bad Request` error to test the configured error handler. Returns a JSON formatted error.
+
+### [GET] `/meta/errors/generic-internal-server-error`
+
+Triggers a generic `500 - Internal Server Error` error to test the configured error handler. Returns a JSON formatted
+error.
 
 ## Testing
 
