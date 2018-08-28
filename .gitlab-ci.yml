@@ -44,7 +44,7 @@ test-app:
 
 test-app-dependencies:
   stage: test
-  image: snyk/snyk-cli:latest
+  image: snyk/snyk-cli:npm
   variables:
     PROJECT_FOLDER: "$CI_PROJECT_DIR"
   script:
