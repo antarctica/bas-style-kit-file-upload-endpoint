@@ -70,6 +70,10 @@ deploy-heroku:
     - "heroku container:release web --app $HEROKU_APP_NAME"
   only:
     - master
+  environment:
+    name: Production
+    url: https://bas-style-kit-file-upload.herokuapp.com/
+
 deploy-sentry:
   stage: deploy
   image:

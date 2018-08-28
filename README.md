@@ -42,6 +42,9 @@ describes how to set any required, or frequently changed options. See `config.py
 To ensure the reliability of this API, server side errors, and unhandled client side errors, are logged to 
 [Sentry](https://sentry.io/antarctica/bsk-file-upload-endpoint/) for investigation and analysis.
 
+Through [Continuous Deployment](#continuous-deployment), each commit to the `master` branch of the project repository 
+creates a new Sentry release and associated deployment to the *production* environment using the Sentry CLI.
+
 ## Setup
 
 ### Local development
@@ -192,6 +195,8 @@ configured in `.gitlab-ci.yml`.
 
 This process will build a Heroku specific Docker image using a 'Docker In Docker' (DIND/DND) runner and push this image
 to Heroku.
+
+It will also create a Sentry release and associated deployment of the release to a *production* environment.
 
 ## Release procedure
 
