@@ -201,9 +201,11 @@ to Heroku.
 2. remove `-develop` from version string in:
   * `docker-compose.yml` - app Docker image
   * `.gitlab-ci.yml` - default Docker image
+  * `Dockerfile.heroku` - `FROM` directive
 3. build & push the Docker image
 4. close release in `CHANGELOG.md`
 5. push changes, merge the release branch into `master` and tag with version
+6. delete the `-develop` tag from the project container registry
 
 The application will be automatically deployed into production using [Continuous Deployment](#continuous-deployment).
 
@@ -213,6 +215,7 @@ The application will be automatically deployed into production using [Continuous
 2. bump the version with `-develop` appended in:
   * `docker-compose.yml` - app Docker image
   * `.gitlab-ci.yml` - default Docker image
+  * `Dockerfile.heroku` - `FROM` directive
 3. build & push the Docker image
 4. push changes and merge the next-release branch into `master`
 
