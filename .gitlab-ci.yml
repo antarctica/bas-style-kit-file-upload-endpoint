@@ -29,7 +29,7 @@ variables:
   HEROKU_APP_NAME: bas-style-kit-file-upload
 
 image:
-  name: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint:0.1.0-alpine
+  name: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint:0.2.0-develop-alpine
   entrypoint: [""]
 
 # == Jobs ==
