@@ -2,6 +2,6 @@
 version: "2"
 
 services:
-  app:
+  snyk:
     build: .
     image: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint/snyk/snyk-cli:python-3
