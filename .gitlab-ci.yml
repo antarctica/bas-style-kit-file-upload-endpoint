@@ -50,7 +50,7 @@ test-app:
 test-app-dependencies:
   stage: test
   image: 
-    name: snyk/snyk-cli:python-3
+    name: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint/snyk/snyk-cli:python-3
     entrypoint: [""]
   script:
     - "snyk test"
