@@ -153,6 +153,17 @@ $ docker login docker-registry.data.bas.ac.uk
 $ docker-compose push
 ```
 
+#### Dependency vulnerability scanning
+
+To ensure the security of this API, all dependencies are checked against 
+[Snyk](https://app.snyk.io/org/antarctica/project/9e602274-9d5e-4672-8d39-97e6f7657843/history) for vulnerabilities. 
+
+Through [Continuous Integration](#continuous-integration), on each commit current dependencies are tested and a snapshot
+uploaded to Snyk. This snapshot is then monitored for vulnerabilities.
+
+Through [Continuous Deployment](#continuous-deployment), each commit to the `master` branch of the project repository 
+creates a new Sentry release and associated deployment to the *production* environment using the Sentry CLI.
+
 ### Internal request methods
 
 Some additional API endpoints are available for development/testing purposes. These endpoints are not documented 
@@ -171,7 +182,8 @@ error.
 
 ### Integration tests
 
-This project uses integration tests to ensure features work as expected and to guard against regressions.
+This project uses integration tests to ensure features work as expected and to guard against regressions and 
+vulnerabilities.
 
 The inbuilt Python [UnitTest](https://docs.python.org/3/library/unittest.html) library is used for running tests using 
 Flask's test framework. Test cases are defined in files within `tests/` and are automatically loaded when using the 
@@ -182,6 +194,9 @@ To run existing tests manually:
 ```shell
 $ docker-compose run app flask test
 ```
+
+Pip dependencies are [checked](#dependency-vulnerability-scanning) on each commit and then monitored for future
+vulnerabilities.
 
 Tests are automatically ran on each commit through [Continuous Integration](#continuous-integration).
 

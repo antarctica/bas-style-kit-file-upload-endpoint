@@ -9,13 +9,16 @@
 
 # = Secret variables
 # - Variables are grouped by section in KEY: "value" format (e.g. FOO: "bar")
-#   Sensetive values are represented by "[Sensetive]"
+#   Sensitive values are represented by "[Sensitive]"
 #
 # - Heroku
-# > HEROKU_API_KEY: "[Sensetive]"
+# > HEROKU_API_KEY: "[Sensitive]"
 #
 # - Sentry
 # > SENTRY_AUTH_TOKEN: "[Sensetive]"
+#
+# - Snyk
+# > SNYK_TOKEN: "[Sensitive]"
 
 # == Global settings ==
 
@@ -32,6 +35,8 @@ variables:
   HEROKU_APP_NAME: bas-style-kit-file-upload
   SENTRY_ORG: antarctica
   SENTRY_PROJECT: bsk-file-upload-endpoint
+  SNYK_ORG: antarctica
+  SNYK_PROJECT: bsk-file-upload-endpoint
 
 image:
   name: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint:0.2.0-develop-alpine
@@ -43,6 +48,16 @@ test-app:
   stage: test
   script:
     - "flask test"
+
+test-app-dependencies:
+  stage: test
+  image: 
+    name: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint/snyk/snyk-cli:python-3
+    entrypoint: [""]
+  script:
+    - "pip install -r requirements.txt"
+    - "snyk test"
+    - "snyk monitor --project-name=$SNYK_PROJECT --org=$SNYK_ORG"
 
 package-heroku:
   stage: package
