@@ -35,6 +35,8 @@ variables:
   HEROKU_APP_NAME: bas-style-kit-file-upload
   SENTRY_ORG: antarctica
   SENTRY_PROJECT: bsk-file-upload-endpoint
+  SNYK_ORG: antarctica
+  SNYK_PROJECT: bsk-file-upload-endpoint
 
 image:
   name: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint:0.2.0-develop-alpine
@@ -55,7 +57,7 @@ test-app-dependencies:
   script:
     - "pip install -r requirements.txt"
     - "snyk test"
-    - "snyk monitor"
+    - "snyk monitor --org="
 
 package-heroku:
   stage: package
