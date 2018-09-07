@@ -55,6 +55,7 @@ test-app-dependencies:
   script:
     - "pip install -r requirements.txt"
     - "snyk test"
+    - "snyk monitor"
 
 package-heroku:
   stage: package
