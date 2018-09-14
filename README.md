@@ -161,9 +161,6 @@ To ensure the security of this API, all dependencies are checked against
 Through [Continuous Integration](#continuous-integration), on each commit current dependencies are tested and a snapshot
 uploaded to Snyk. This snapshot is then monitored for vulnerabilities.
 
-Through [Continuous Deployment](#continuous-deployment), each commit to the `master` branch of the project repository 
-creates a new Sentry release and associated deployment to the *production* environment using the Sentry CLI.
-
 ### Internal request methods
 
 Some additional API endpoints are available for development/testing purposes. These endpoints are not documented 
