@@ -49,7 +49,7 @@ creates a new Sentry release and associated deployment to the *production* envir
 
 ### Local development
 
-To setup a local copy of this API access to this repository and Docker & Docker Compose is required. 
+To setup a local copy of this API access to this repository, Docker and Docker Compose are required. 
 
 ```shell
 $ cd bas-style-kit-file-upload-endpoint
