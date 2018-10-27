@@ -46,12 +46,14 @@ image:
 
 test-app:
   stage: test
+  variables:
+    FLASK_ENV: testing
   script:
     - "flask test"
 
 test-app-dependencies:
   stage: test
-  image: 
+  image:
     name: antarctica/snyk-cli:python-3
     entrypoint: [""]
   script:

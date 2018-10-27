@@ -1,34 +1,20 @@
 from http import HTTPStatus
 from uuid import uuid4
 
-from flask import request, make_response, jsonify, abort, current_app as app
+import sentry_sdk
+from flask import current_app as app
 
-def error_generic_bad_request():
-    return {
-        'id': uuid4(),
-        'status': HTTPStatus.BAD_REQUEST,
-        'title': 'Bad Request',
-        'detail': 'No additional information is available, check your request and try again'
-    }
-
-def error_generic_not_found():
-    return {
-        'id': uuid4(),
-        'status': HTTPStatus.NOT_FOUND,
-        'title': 'Not Found',
-        'detail': 'The requested URL was not found, check the address and try again'
-    }
-
-def error_generic_internal_server_error():
-    return {
-        'id': uuid4(),
-        'status': HTTPStatus.INTERNAL_SERVER_ERROR,
-        'title': 'Internal Server Error',
-        'detail': 'No additional information is available, please try again in a few minutes or seek support'
-    }
 
 def error_no_file(field):
-    app.logger.warning(f"[{ field }] field missing in request")
+    log_message = f"[{ field }] field missing in request"
+    app.logger.warning(log_message)
+
+    # as the API handles this error with this error message it is not reported to Sentry
+    # however, because it's useful for tracking, an event is sent anyway.
+    with sentry_sdk.push_scope() as scope:
+        scope.set_extra('debug', False)
+        sentry_sdk.capture_message(log_message)
+
 
     return {
         'id': uuid4(),
@@ -39,7 +25,15 @@ def error_no_file(field):
 
 
 def error_no_file_selection(field):
-    app.logger.warning(f"[{ field }] field value is an empty selection")
+    log_message = f"[{ field }] field value is an empty selection"
+    app.logger.warning(log_message)
+
+    # as the API handles this error with this error message it is not reported to Sentry
+    # however, because it's useful for tracking, an event is sent anyway.
+    with sentry_sdk.push_scope() as scope:
+        scope.set_extra('debug', False)
+        sentry_sdk.capture_message(log_message)
+
 
     return {
         'id': uuid4(),
@@ -49,23 +43,16 @@ def error_no_file_selection(field):
     }
 
 
-def error_too_large(maximum_size, request_size):
-    app.logger.warning(f"Request content length, [{ request_size }], is too great")
-
-    return {
-        'id': uuid4(),
-        'status': HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
-        'title': 'Request content length is too great',
-        'detail': 'Check the content length of the request is less than the maximum allowed',
-        'meta': {
-            'maximum_content_length_allowed': maximum_size,
-            'request_content_length': request_size
-        }
-    }
-
-
 def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
-    app.logger.warning(f"File type uploaded, [{ invalid_mime_type }], is not allowed")
+    log_message = f"File type uploaded, [{ invalid_mime_type }], is not allowed"
+    app.logger.warning(log_message)
+
+    # as the API handles this error with this error message it is not reported to Sentry
+    # however, because it's useful for tracking, an event is sent anyway.
+    with sentry_sdk.push_scope() as scope:
+        scope.set_extra('debug', False)
+        sentry_sdk.capture_message(log_message)
+
 
     return {
         'id': uuid4(),
@@ -77,25 +64,3 @@ def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
             'instance_mime_type': invalid_mime_type
         }
     }
-
-
-def error_handler_request_entity_too_large(e):
-    content_length = request.content_length
-    upload_limit = app.config['MAX_CONTENT_LENGTH']
-    payload = {'errors': [error_too_large(upload_limit, content_length)]}
-    return make_response(jsonify(payload), HTTPStatus.REQUEST_ENTITY_TOO_LARGE)
-
-
-def error_handler_generic_bad_request(e):
-    payload = {'errors': [error_generic_bad_request()]}
-    return make_response(jsonify(payload), HTTPStatus.BAD_REQUEST)
-
-
-def error_handler_generic_not_found(e):
-    payload = {'errors': [error_generic_not_found()]}
-    return make_response(jsonify(payload), HTTPStatus.NOT_FOUND)
-
-
-def error_handler_generic_internal_server_error(e):
-    payload = {'errors': [error_generic_internal_server_error()]}
-    return make_response(jsonify(payload), HTTPStatus.INTERNAL_SERVER_ERROR)
