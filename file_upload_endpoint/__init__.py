@@ -26,9 +26,9 @@ def create_app(config_name):
 
     if app.config['APP_ENABLE_CORS']:
         CORS(
-            app, 
-            origins=app.config['CORS_ALLOWED_ORIGINS'], 
-            methods=app.config['CORS_ALLOWED_METHODS'], 
+            app,
+            origins=app.config['CORS_ALLOWED_ORIGINS'],
+            methods=app.config['CORS_ALLOWED_METHODS'],
             allow_headers=app.config['CORS_ALLOWED_HEADERS']
         )
 
