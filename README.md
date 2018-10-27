@@ -190,7 +190,7 @@ Flask's test framework. Test cases are defined in files within `tests/` and are 
 To run tests manually:
 
 ```shell
-$ docker-compose run app flask test
+$ docker-compose run -e FLASK_ENV=testing app flask test
 ```
 
 Pip dependencies are [checked](#dependency-vulnerability-scanning) on each commit and then monitored for future

@@ -46,6 +46,8 @@ image:
 
 test-app:
   stage: test
+  variables:
+    FLASK_ENV: testing
   script:
     - "flask test"
 
