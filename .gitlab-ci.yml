@@ -63,7 +63,7 @@ test-app-dependencies:
     - "snyk monitor --project-name=$SNYK_PROJECT --org=$SNYK_ORG"
 
 pep8-app:
-  stage: linit
+  stage: lint
   script:
     - "flake8 . --ignore=E501"
 
