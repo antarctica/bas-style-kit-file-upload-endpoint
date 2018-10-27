@@ -39,11 +39,11 @@ describes how to set any required, or frequently changed options. See `config.py
 
 ### Error tracking
 
-To ensure the reliability of this API, server side errors, and unhandled client side errors, are logged to 
+To ensure the reliability of this API, errors are logged to 
 [Sentry](https://sentry.io/antarctica/bsk-file-upload-endpoint/) for investigation and analysis.
 
-Through [Continuous Deployment](#continuous-deployment), each commit to the `master` branch of the project repository 
-creates a new Sentry release and associated deployment to the *production* environment using the Sentry CLI.
+Through [Continuous Deployment](#continuous-deployment), each commit to the `master` branch in the project repository 
+creates a new Sentry release, associated the *production* environment through a deployment using the Sentry CLI.
 
 ## Setup
 
