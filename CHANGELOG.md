@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * GitLab environment information for Heroku as a production environment
 * Documenting index request standalone methods in usage documentation
 * Documenting content-types, encoding and endpoints/access, error logging and support in usage documentation
+* Automatic Pep8 checking using Flake8
 
 ### Fixed
 

@@ -128,7 +128,16 @@ These routes are reserved and **MUST NOT** be implemented:
 
 ### Code Style
 
-PEP-8 style and formatting recommendations should be used for this project.
+PEP-8 style and formatting guidelines must be used for this project, with the exception of the 80 character line limit.
+
+[Flake8](http://flake8.pycqa.org/) is used to ensure compliance, and is ran on each commit through 
+[Continuous Integration](#continuous-integration).
+
+To check compliance locally:
+
+```shell
+$ docker-compose run app flake8 . --ignore=E501
+```
 
 ### Dependencies
 
