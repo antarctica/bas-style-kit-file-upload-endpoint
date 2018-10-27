@@ -2,6 +2,7 @@ import os
 import logging
 from logging import StreamHandler
 from dotenv import load_dotenv
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 
 class Config(object):
@@ -16,26 +17,30 @@ class Config(object):
 
     MAX_CONTENT_LENGTH = os.environ.get('APP_MAX_UPLOAD_BYTES') or 10 * 1024 * 1024  # 10MB
 
-    SENTRY_CONFIG = {}
-    SENTRY_CONFIG['environment'] = os.getenv('FLASK_ENV')
+    SENTRY_CONFIG = {
+        'integrations': [FlaskIntegration()],
+        'environment': os.getenv('FLASK_ENV') or 'default'
+    }
     if 'APP_RELEASE' in os.environ:
         SENTRY_CONFIG['release'] = os.environ.get('APP_RELEASE')
 
-    CORS_ALLOWED_ORIGINS = [
-        'http://localhost:9000', 
-        'https://style-kit-testbed.web.bas.ac.uk', 
-        'https://style-kit-testing.web.bas.ac.uk', 
-        'https://style-kit.web.bas.ac.uk'
-    ]
-    CORS_ALLOWED_METHODS = [
-        'OPTIONS',
-        'GET',
-        'POST'
-    ]
-    CORS_ALLOWED_HEADERS = [
-        'cache-control',
-        'x-requested-with'
-    ]
+    CORS_CONFIG = {
+        'origins': [
+            'http://localhost:9000',
+            'https://style-kit-testbed.web.bas.ac.uk',
+            'https://style-kit-testing.web.bas.ac.uk',
+            'https://style-kit.web.bas.ac.uk'
+        ],
+        'methods': [
+            'OPTIONS',
+            'GET',
+            'POST'
+        ],
+        'allowed_headers': [
+            'cache-control',
+            'x-requested-with'
+        ]
+    }
 
     @staticmethod
     def init_app(app):
