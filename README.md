@@ -39,11 +39,11 @@ describes how to set any required, or frequently changed options. See `config.py
 
 ### Error tracking
 
-To ensure the reliability of this API, server side errors, and unhandled client side errors, are logged to 
+To ensure the reliability of this API, errors are logged to 
 [Sentry](https://sentry.io/antarctica/bsk-file-upload-endpoint/) for investigation and analysis.
 
-Through [Continuous Deployment](#continuous-deployment), each commit to the `master` branch of the project repository 
-creates a new Sentry release and associated deployment to the *production* environment using the Sentry CLI.
+Through [Continuous Deployment](#continuous-deployment), each commit to the `master` branch in the project repository 
+creates a new Sentry release, associated the *production* environment through a deployment using the Sentry CLI.
 
 ## Setup
 
@@ -106,8 +106,7 @@ Config Vars (environment variables) for sensitive settings:
 ## Development
 
 This API is developed as a Flask application using the conventions outlined in the 
-[Flasky](https://github.com/miguelgrinberg/flasky) example project (if in BAS, access to the associated book is 
-available from the Web & Applications Team).
+[Flasky](https://github.com/miguelgrinberg/flasky) example project [1].
 
 Environments and feature flags are used to control which elements of this application are enabled in different 
 situations. For example in the development environment, Sentry error tracking is disabled and Flask's debug mode is on.
@@ -118,6 +117,8 @@ for each environment, and if needed feature flags, should allow end-users to fin
 **Note:** Ensure `.env.example` is kept up-to-date if any configuration options are added or changed.
 
 Ensure [Integration tests](#integration-tests) are written for any new feature, or changes to existing features.
+
+[1] If in BAS, access to the associated book is available from the Web & Applications Team.
 
 ### Reserved routes
 

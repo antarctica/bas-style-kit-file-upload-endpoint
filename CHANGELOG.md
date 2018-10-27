@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed [BREAKING]
+
+* Sentry updated to new packages, new DNS values required
+
 ### Added
 
 * Snyk for checking Python dependency versions
@@ -26,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Heroku application is now registered under the shared `webapps@bas.ac.uk` account
 * Terraform updated to version 0.11.8
+* Improving README
 
 ## 0.1.0 (2018-08-28)
 
