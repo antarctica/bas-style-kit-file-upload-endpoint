@@ -1,9 +1,9 @@
 from http import HTTPStatus
 
-from flask import Blueprint, request, make_response, jsonify, abort, current_app as app
+from flask import Blueprint, request, make_response, jsonify, abort
 
-from file_upload_endpoint.main.errors import error_no_file, error_no_file_selection, error_too_large, \
-        error_wrong_mime_type
+from file_upload_endpoint.main.errors import error_no_file, error_no_file_selection, error_wrong_mime_type
+from file_upload_endpoint.meta.errors import error_too_large
 
 main = Blueprint('main', __name__)
 
@@ -80,13 +80,3 @@ def upload_single_restricted_mime_types():
         abort(make_response(jsonify(payload), HTTPStatus.UNSUPPORTED_MEDIA_TYPE))
 
     return '', HTTPStatus.NO_CONTENT
-
-
-@main.route('/meta/errors/generic-bad-request')
-def meta_errors_generic_bad_request():
-    abort(HTTPStatus.BAD_REQUEST)
-
-
-@main.route('/meta/errors/generic-internal-server-error')
-def meta_errors_generic_internal_server_error():
-    abort(HTTPStatus.INTERNAL_SERVER_ERROR)
