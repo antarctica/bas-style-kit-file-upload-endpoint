@@ -5,6 +5,7 @@ from flask import Blueprint, request, make_response, jsonify, abort
 from file_upload_endpoint.main.errors import error_no_file, error_no_file_selection, error_wrong_mime_type
 from file_upload_endpoint.meta.errors import error_too_large
 
+
 main = Blueprint('main', __name__)
 
 

@@ -31,7 +31,6 @@ class AppTestCase(unittest.TestCase):
         self.assertIn('meta', json_response.keys())
         self.assertIn('summary', json_response['meta'].keys())
 
-
     def test_upload_single(self):
         with open(os.path.join(os.path.dirname(__file__), 'static', 'uploads', 'valid.png'), 'rb') as file_upload:
             request_data = {

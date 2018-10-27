@@ -24,6 +24,7 @@
 
 stages:
   - test
+  - lint
   - package
   - deploy
 
@@ -60,6 +61,11 @@ test-app-dependencies:
     - "pip install -r requirements.txt"
     - "snyk test"
     - "snyk monitor --project-name=$SNYK_PROJECT --org=$SNYK_ORG"
+
+pep8-app:
+  stage: lint
+  script:
+    - "flake8 . --ignore=E501"
 
 package-heroku:
   stage: package

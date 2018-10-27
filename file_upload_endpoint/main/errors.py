@@ -15,7 +15,6 @@ def error_no_file(field):
         scope.set_extra('debug', False)
         sentry_sdk.capture_message(log_message)
 
-
     return {
         'id': uuid4(),
         'status': HTTPStatus.BAD_REQUEST,
@@ -34,7 +33,6 @@ def error_no_file_selection(field):
         scope.set_extra('debug', False)
         sentry_sdk.capture_message(log_message)
 
-
     return {
         'id': uuid4(),
         'status': HTTPStatus.BAD_REQUEST,
@@ -52,7 +50,6 @@ def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
     with sentry_sdk.push_scope() as scope:
         scope.set_extra('debug', False)
         sentry_sdk.capture_message(log_message)
-
 
     return {
         'id': uuid4(),

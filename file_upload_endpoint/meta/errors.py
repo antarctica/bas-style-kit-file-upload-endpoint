@@ -4,6 +4,7 @@ from uuid import uuid4
 import sentry_sdk
 from flask import request, make_response, jsonify, current_app as app
 
+
 def error_generic_bad_request():
     return {
         'id': uuid4(),
@@ -11,6 +12,7 @@ def error_generic_bad_request():
         'title': 'Bad Request',
         'detail': 'No additional information is available, check your request and try again'
     }
+
 
 def error_generic_not_found():
     return {
@@ -20,6 +22,7 @@ def error_generic_not_found():
         'detail': 'The requested URL was not found, check the address and try again'
     }
 
+
 def error_generic_internal_server_error():
     return {
         'id': uuid4(),
@@ -27,6 +30,7 @@ def error_generic_internal_server_error():
         'title': 'Internal Server Error',
         'detail': 'No additional information is available, please try again in a few minutes or seek support'
     }
+
 
 def error_too_large(maximum_size, request_size):
     log_message = f"Request content length, [{ request_size }], is too great"
