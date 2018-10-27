@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Removing superfluous RUN statement in Dockerfile to create working directory
 * Added missing HTTP method/verbs to standalone methods in usage documentation
 * Environment variables for boolean options are now correctly cast to the boolean data type
+* PEP-8 style violations
 
 ### Changed
 
