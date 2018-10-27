@@ -3,6 +3,7 @@ import logging
 from logging import StreamHandler
 from dotenv import load_dotenv
 from sentry_sdk.integrations.flask import FlaskIntegration
+from str2bool import str2bool
 
 
 class Config(object):
@@ -12,10 +13,10 @@ class Config(object):
 
     DEBUG = False
     TESTING = False
-    APP_ENABLE_SENTRY = os.environ.get('APP_ENABLE_SENTRY') or True
-    APP_ENABLE_CORS = os.environ.get('APP_ENABLE_CORS') or True
+    APP_ENABLE_SENTRY = str2bool(os.environ.get('APP_ENABLE_SENTRY')) or True
+    APP_ENABLE_CORS = str2bool(os.environ.get('APP_ENABLE_CORS')) or True
 
-    MAX_CONTENT_LENGTH = os.environ.get('APP_MAX_UPLOAD_BYTES') or 10 * 1024 * 1024  # 10MB
+    MAX_CONTENT_LENGTH = int(os.environ.get('APP_MAX_UPLOAD_BYTES', 10 * 1024 * 1024))  # default: 10MB
 
     SENTRY_CONFIG = {
         'integrations': [FlaskIntegration()],
@@ -52,12 +53,12 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    APP_ENABLE_SENTRY = os.environ.get('APP_ENABLE_SENTRY') or False
+    APP_ENABLE_SENTRY = str2bool(os.environ.get('APP_ENABLE_SENTRY')) or False
 
 class TestConfig(Config):
     DEBUG = True
     TESTING = True
-    APP_ENABLE_SENTRY = os.environ.get('APP_ENABLE_SENTRY') or False
+    APP_ENABLE_SENTRY = str2bool(os.environ.get('APP_ENABLE_SENTRY')) or False
 
 
 class ProductionConfig(Config):
