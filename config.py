@@ -54,6 +54,7 @@ class TestConfig(Config):
     TESTING = True
     APP_ENABLE_SENTRY = os.environ.get('APP_ENABLE_SENTRY') or False
 
+
 class ProductionConfig(Config):
     pass
 

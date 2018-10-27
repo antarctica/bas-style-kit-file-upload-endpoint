@@ -187,7 +187,7 @@ The inbuilt Python [UnitTest](https://docs.python.org/3/library/unittest.html) l
 Flask's test framework. Test cases are defined in files within `tests/` and are automatically loaded when using the 
 `test` custom Flask CLI command.
 
-To run existing tests manually:
+To run tests manually:
 
 ```shell
 $ docker-compose run app flask test

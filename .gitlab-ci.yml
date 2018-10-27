@@ -51,7 +51,7 @@ test-app:
 
 test-app-dependencies:
   stage: test
-  image: 
+  image:
     name: antarctica/snyk-cli:python-3
     entrypoint: [""]
   script:

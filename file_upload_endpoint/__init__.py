@@ -14,11 +14,6 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-    app.register_error_handler(400, error_handler_generic_bad_request)
-    app.register_error_handler(404, error_handler_generic_not_found)
-    app.register_error_handler(413, error_handler_request_entity_too_large)
-    app.register_error_handler(500, error_handler_generic_internal_server_error)
-
     if app.config['APP_ENABLE_SENTRY']:
         sentry_sdk.init(
             integrations=[FlaskIntegration()]
@@ -33,5 +28,10 @@ def create_app(config_name):
         )
 
     app.register_blueprint(main_blueprint)
+
+    app.register_error_handler(400, error_handler_generic_bad_request)
+    app.register_error_handler(404, error_handler_generic_not_found)
+    app.register_error_handler(413, error_handler_request_entity_too_large)
+    app.register_error_handler(500, error_handler_generic_internal_server_error)
 
     return app
