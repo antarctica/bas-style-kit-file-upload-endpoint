@@ -3,7 +3,7 @@ version: "2"
 
 services:
   terraform:
-    image: hashicorp/terraform:0.11.3
+    image: hashicorp/terraform:0.11.8
     working_dir: /usr/src/app/provisioning/terraform
     entrypoint: ash
     volumes:

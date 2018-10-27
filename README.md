@@ -208,8 +208,8 @@ This process will run the application [Integration tests](#integration-tests).
 ### Heroku
 
 This API is deployed on [Heroku](https://heroku.com) as a 
-[project](https://dashboard.heroku.com/apps/bas-style-kit-file-upload) using their 
-[container hosting](https://devcenter.heroku.com/articles/container-registry-and-runtime) option.
+[project](https://dashboard.heroku.com/apps/bas-style-kit-file-upload) under the `webapps@bas.ac.uk` shared account, 
+using their [container hosting](https://devcenter.heroku.com/articles/container-registry-and-runtime) option.
 
 The Heroku project uses a Docker image built from the application image with the application source included and 
 development related features disabled. This image is built and pushed to Heroku on each commit to the `master` branch 
@@ -217,8 +217,6 @@ through [Continuous Deployment](#continuous-deployment).
 
 **Note:** This deployment is considered both a *staging* and *production* environment due to the low value and developer
 oriented nature of this API. The *development* environment is not deployed as it is only intended for local use.
-
-**Note:** The Heroku project for this API is currently in a personal account, it will be moved to a team account soon.
 
 ### Continuous Deployment
 
