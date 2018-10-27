@@ -1,6 +1,7 @@
 import os
 import logging
 from logging import StreamHandler
+# noinspection PyPackageRequirements
 from dotenv import load_dotenv
 from sentry_sdk.integrations.flask import FlaskIntegration
 from str2bool import str2bool
