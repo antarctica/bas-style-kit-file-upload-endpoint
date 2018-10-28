@@ -168,6 +168,9 @@ $ docker-compose push
 To ensure the security of this API, all dependencies are checked against 
 [Snyk](https://app.snyk.io/org/antarctica/project/9e602274-9d5e-4672-8d39-97e6f7657843/history) for vulnerabilities. 
 
+**Warning:** Snyk relies on known vulnerabilities and can't check for issues that are not in it's database. As with all 
+security tools, Snyk is an aid for spotting common mistakes, not a guarantee of secure code.
+
 Through [Continuous Integration](#continuous-integration), on each commit current dependencies are tested and a snapshot
 uploaded to Snyk. This snapshot is then monitored for vulnerabilities.
 
