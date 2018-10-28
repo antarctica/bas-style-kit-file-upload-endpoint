@@ -163,13 +163,40 @@ $ docker login docker-registry.data.bas.ac.uk
 $ docker-compose push
 ```
 
-#### Dependency vulnerability scanning
+### Dependency vulnerability scanning
 
 To ensure the security of this API, all dependencies are checked against 
 [Snyk](https://app.snyk.io/org/antarctica/project/9e602274-9d5e-4672-8d39-97e6f7657843/history) for vulnerabilities. 
 
+**Warning:** Snyk relies on known vulnerabilities and can't check for issues that are not in it's database. As with all 
+security tools, Snyk is an aid for spotting common mistakes, not a guarantee of secure code.
+
+Some vunerabilities have been ignored in this project, see `.snyk` for definitions and the 
+[Dependency exceptions](#dependency-vulnerability-exceptions) section for more information.
+
 Through [Continuous Integration](#continuous-integration), on each commit current dependencies are tested and a snapshot
 uploaded to Snyk. This snapshot is then monitored for vulnerabilities.
+
+#### Dependency vulnerability exceptions
+
+This project contains known vulnerabilities that have been ignored for a specific reason.
+
+* [Py-Yaml `yaml.load()` function allows Arbitrary Code Execution](https://snyk.io/vuln/SNYK-PYTHON-PYYAML-42159)
+    * currently no known or planned resolution
+    * indirect dependency, required through the `bandit` package
+    * severity is rated *high*
+    * risk judged to be *low* given the nature of this API
+    * ignored for 1 year for re-review
+
+### Static security scanning
+
+To ensure the security of this API, source code is checked against [Bandit](https://github.com/PyCQA/bandit) for issues 
+such as not sanitising user inputs or using weak cryptography. 
+
+**Warning:** Bandit is a static analysis tool and can't check for issues that are only be detectable when running the 
+application. As with all security tools, Bandit is an aid for spotting common mistakes, not a guarantee of secure code.
+
+Through [Continuous Integration](#continuous-integration), each commit is tested.
 
 ### Internal request methods
 

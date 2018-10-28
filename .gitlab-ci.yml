@@ -24,7 +24,7 @@
 
 stages:
   - test
-  - lint
+  - security
   - package
   - deploy
 
@@ -52,8 +52,8 @@ test-app:
   script:
     - "flask test"
 
-test-app-dependencies:
-  stage: test
+dependencies-app:
+  stage: security
   image:
     name: antarctica/snyk-cli:python-3
     entrypoint: [""]
@@ -63,9 +63,14 @@ test-app-dependencies:
     - "snyk monitor --project-name=$SNYK_PROJECT --org=$SNYK_ORG"
 
 pep8-app:
-  stage: lint
+  stage: security
   script:
     - "flake8 . --ignore=E501"
+
+bandit-app:
+  stage: security
+  script:
+    - "bandit -r ."
 
 package-heroku:
   stage: package

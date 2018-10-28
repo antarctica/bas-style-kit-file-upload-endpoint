@@ -14,13 +14,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Snyk for checking Python dependency versions
+* Automatic PEP-8 checking using Flake8
+* Static security testing using Bandit
 * Sentry environment tracking using the existing `FLASK_ENV` environment variable
 * Sentry release tracking using a build argument in the Heroku Docker image set in CD
 * Sentry release deployment using the Snetry CLI as a job in CD
 * GitLab environment information for Heroku as a production environment
 * Documenting index request standalone methods in usage documentation
 * Documenting content-types, encoding and endpoints/access, error logging and support in usage documentation
-* Automatic Pep8 checking using Flake8
 
 ### Fixed
 
