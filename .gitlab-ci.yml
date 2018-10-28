@@ -67,6 +67,11 @@ pep8-app:
   script:
     - "flake8 . --ignore=E501"
 
+bandit-app:
+  stage: security
+  script:
+    - "bandit -r ."
+
 package-heroku:
   stage: package
   tags:

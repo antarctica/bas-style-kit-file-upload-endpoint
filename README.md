@@ -171,6 +171,16 @@ To ensure the security of this API, all dependencies are checked against
 Through [Continuous Integration](#continuous-integration), on each commit current dependencies are tested and a snapshot
 uploaded to Snyk. This snapshot is then monitored for vulnerabilities.
 
+### Static security scanning
+
+To ensure the security of this API, source code is checked against [Bandit](https://github.com/PyCQA/bandit) for issues 
+such as not sanitising user inputs or using weak cryptography. 
+
+**Warning:** Bandit is a static analysis tool and can't check for issues that are only be detectable when running the 
+application. As with all security tools, Bandit is an aid for spotting common mistakes, not a guarantee of secure code.
+
+Through [Continuous Integration](#continuous-integration), each commit is tested.
+
 ### Internal request methods
 
 Some additional API endpoints are available for development/testing purposes. These endpoints are not documented 
