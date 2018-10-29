@@ -250,12 +250,26 @@ All commits will trigger a Continuous Integration process using GitLab's CI/CD p
 
 This process will run the application [Integration tests](#integration-tests).
 
+### Review apps
+
+To allow unreleased changes to be viewed by others, short-term instances of this API (known as review apps) are created 
+on each commit within a branch, except the *master* branch, which is part of [Deployment](#deployment)). Review apps 
+are managed by GitLab as part of [Continuous Integration](#continuous-integration).
+
+Each review app is a standalone Heroku application, configured in the same way as the production instance. The URL for
+each application is computed based on a common prefix (`bas-ra`), the project (in GitLab) and CI/CD pipeline being ran. 
+See the [Herok](#heroku) section for more information on how this project runs on Heroku.
+
+**Note:** Due to limitations with GitLab, review apps for a given branch (i.e. its commits) may not be correctly 
+removed when the branch is merged. This will require manually removing any orphaned applications through the 
+[Heroku dashboard](https://dashboard.heroku.com/).
+
 ## Deployment
 
 ### Heroku
 
 This API is deployed on [Heroku](https://heroku.com) as a 
-[project](https://dashboard.heroku.com/apps/bas-style-kit-file-upload) under the `webapps@bas.ac.uk` shared account, 
+[app](https://dashboard.heroku.com/apps/bas-style-kit-file-upload) under the `webapps@bas.ac.uk` shared account, 
 using their [container hosting](https://devcenter.heroku.com/articles/container-registry-and-runtime) option.
 
 The Heroku project uses a Docker image built from the application image with the application source included and 

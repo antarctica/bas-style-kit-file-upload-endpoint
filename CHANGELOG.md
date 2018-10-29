@@ -14,12 +14,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Request ID support
+* Additional tests to check underlying Flask application exists and correct configuration used
+* Heroku review applications
 * Snyk for checking Python dependency versions
 * Automatic PEP-8 checking using Flake8
 * Static security testing using Bandit
 * Sentry environment tracking using the existing `FLASK_ENV` environment variable
 * Sentry release tracking using a build argument in the Heroku Docker image set in CD
-* Sentry release deployment using the Snetry CLI as a job in CD
+* Sentry release deployment using the Sentry CLI as a job in CD
 * GitLab environment information for Heroku as a production environment
 * Documenting index request standalone methods in usage documentation
 * Documenting content-types, encoding and endpoints/access, error logging and support in usage documentation
@@ -36,6 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Heroku application is now registered under the shared `webapps@bas.ac.uk` account
 * Terraform updated to version 0.11.8
 * Meta routes and generic errors refactored into a new 'meta' blueprint
+* Tests for new meta blueprint moved into a separate test class
 * Passing pre-formed keyword argument dicts from the Config class for Flask 'plugins'
 * Ensuring the correct Flask/App environment is used when testing
 * Improving README
