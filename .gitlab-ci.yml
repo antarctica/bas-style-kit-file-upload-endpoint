@@ -100,7 +100,7 @@ stop_review:
   variables:
     GIT_STRATEGY: none
   script:
-    - 'echo "destroying $review/$CI_PROJECT_ID-$CI_PIPELINE_ID"'
+    - "heroku apps:destroy --app=bas-ra-$CI_PROJECT_ID-$CI_PIPELINE_ID --confirm=bas-ra-$CI_PROJECT_ID-$CI_PIPELINE_ID"
   when: manual
   environment:
     name: review/$CI_PROJECT_ID-$CI_PIPELINE_ID
