@@ -83,7 +83,7 @@ review:
   #  before_script:
   #    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
   script:
-    - "echo 'creating $CI_COMMIT_REF_SLUG'"
+    - 'echo "creating $CI_COMMIT_REF_SLUG"'
     # - "heroku apps:create bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --no-remote --region eu"
   environment:
     name: review/$CI_COMMIT_REF_SLUG
@@ -105,7 +105,7 @@ stop_review:
 #  before_script:
 #    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
   script:
-    - "echo 'destroying $CI_COMMIT_REF_SLUG'"
+    - 'echo "destroying $CI_COMMIT_REF_SLUG"'
     #- "heroku apps:destroy --app bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --confirm=bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT"
   when: manual
   environment:
