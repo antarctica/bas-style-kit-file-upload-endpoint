@@ -65,12 +65,17 @@ class TestConfig(Config):
     APP_ENABLE_SENTRY = str2bool(os.environ.get('APP_ENABLE_SENTRY')) or False
 
 
+class ReviewConfig(Config):
+    pass
+
+
 class ProductionConfig(Config):
     pass
 
 
 config = {
     'development': DevelopmentConfig,
+    'review': ReviewConfig,
     'production': ProductionConfig,
     'testing': TestConfig,
     'default': ProductionConfig
