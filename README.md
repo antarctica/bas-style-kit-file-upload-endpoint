@@ -37,6 +37,16 @@ logging.
 The application environment is set using the `FLASK_ENV` environment variable. A sample Dot ENV file, `.env.example`, 
 describes how to set any required, or frequently changed options. See `config.py` for all available options.
 
+### Request IDs
+
+To aid in debugging, all requests will include a `X-Request-ID` header with one or more values. This can be used to
+trace requests through different services such as a load balancer, cache and other layers.
+
+This API will check whether incoming requests already include a request ID, if a single value has been set (either by 
+another service or by the client) an additional value is appended to ensure there is at least one known unique value 
+(as a client may use something non-unique). If there are already multiple values it is assumed this has already been
+done and that one is already unique. Where there isn't a request ID, one will be assigned.
+
 ### Error tracking
 
 To ensure the reliability of this API, errors are logged to 

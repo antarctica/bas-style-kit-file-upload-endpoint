@@ -8,6 +8,7 @@ from file_upload_endpoint.meta import meta as meta_blueprint
 from file_upload_endpoint.main import main as main_blueprint
 from file_upload_endpoint.meta.errors import error_handler_generic_bad_request, error_handler_generic_not_found, \
     error_handler_request_entity_too_large, error_handler_generic_internal_server_error
+from file_upload_endpoint.middleware.request_id import RequestID
 
 
 def create_app(config_name):
@@ -20,6 +21,8 @@ def create_app(config_name):
 
     if app.config['APP_ENABLE_CORS']:
         CORS(app, **app.config['CORS_CONFIG'])
+
+    RequestID(app)
 
     app.register_blueprint(meta_blueprint)
     app.register_blueprint(main_blueprint)
