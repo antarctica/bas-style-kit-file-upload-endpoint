@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Request ID support
+* Additional tests to check underlying Flask application exists and correct configuration used
 * Snyk for checking Python dependency versions
 * Automatic PEP-8 checking using Flake8
 * Static security testing using Bandit
