@@ -52,16 +52,16 @@ class Config(object):
         app.logger.addHandler(file_handler)
 
 
-class DevelopmentConfig(Config):
-    DEBUG = True
-    APP_ENABLE_SENTRY = str2bool(os.environ.get('APP_ENABLE_SENTRY')) or False
-
-
 class TestConfig(Config):
     ENV = 'testing'
 
     DEBUG = True
     TESTING = True
+    APP_ENABLE_SENTRY = str2bool(os.environ.get('APP_ENABLE_SENTRY')) or False
+
+
+class DevelopmentConfig(Config):
+    DEBUG = True
     APP_ENABLE_SENTRY = str2bool(os.environ.get('APP_ENABLE_SENTRY')) or False
 
 
@@ -74,9 +74,9 @@ class ProductionConfig(Config):
 
 
 config = {
+    'testing': TestConfig,
     'development': DevelopmentConfig,
     'review': ReviewConfig,
     'production': ProductionConfig,
-    'testing': TestConfig,
     'default': ProductionConfig
 }
