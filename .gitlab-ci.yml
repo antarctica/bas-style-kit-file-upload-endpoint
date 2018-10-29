@@ -80,13 +80,14 @@ review:
     entrypoint: [""]
   variables:
     GIT_STRATEGY: none
-  before_script:
-    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
+  #  before_script:
+  #    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
   script:
-    - "heroku apps:create bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --no-remote --region eu"
+    - "echo 'creating $CI_COMMIT_REF_SLUG'"
+    # - "heroku apps:create bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --no-remote --region eu"
   environment:
-    name: review/$CI_COMMIT_REF_SLUG_SHORT
-    url: https://bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT.herokuapp.com/
+    name: review/$CI_COMMIT_REF_SLUG
+    url: https://$CI_COMMIT_REF_SLUG.herokuapp.com/
     on_stop: stop_review
   only:
     - branches
@@ -99,15 +100,16 @@ stop_review:
   image:
     name: wingrunr21/alpine-heroku-cli
     entrypoint: [""]
-  before_script:
-    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
-  script:
-    - "heroku apps:destroy --app bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --confirm=bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT"
   variables:
     GIT_STRATEGY: none
+#  before_script:
+#    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
+  script:
+    - "echo 'destroying $CI_COMMIT_REF_SLUG'"
+    #- "heroku apps:destroy --app bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --confirm=bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT"
   when: manual
   environment:
-    name: review/$CI_COMMIT_REF_SLUG_SHORT
+    name: review/$CI_COMMIT_REF_SLUG
     action: stop
 
 package-heroku:
