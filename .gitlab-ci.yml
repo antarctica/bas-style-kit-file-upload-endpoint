@@ -106,7 +106,7 @@ stop_review:
     name: review/$CI_PROJECT_ID-$CI_PIPELINE_ID
     action: stop
 
-heroku-prod:
+pack-heroku-prod:
   stage: package
   tags:
     - dnd
@@ -123,7 +123,7 @@ heroku-prod:
   only:
     - master
 
-heroku-review:
+pack-heroku-review:
   stage: package
   tags:
     - dnd
@@ -145,7 +145,7 @@ heroku-review:
     - master
     - tags
 
-heroku-prod:
+deploy-heroku-prod:
   stage: deploy
   image:
     name: wingrunr21/alpine-heroku-cli
@@ -158,7 +158,7 @@ heroku-prod:
     name: Production
     url: https://bas-style-kit-file-upload.herokuapp.com/
 
-heroku-review:
+deploy-heroku-review:
   stage: deploy
   image:
     name: wingrunr21/alpine-heroku-cli
