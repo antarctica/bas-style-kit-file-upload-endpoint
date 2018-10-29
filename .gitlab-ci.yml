@@ -80,11 +80,8 @@ review:
     entrypoint: [""]
   variables:
     GIT_STRATEGY: none
-  #  before_script:
-  #    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
   script:
-    # - "heroku apps:create bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --no-remote --region eu"
-    - 'echo "creating $CI_PROJECT_ID-$CI_PIPELINE_ID"'
+    - "heroku apps:create bas-ra-$CI_PROJECT_ID-$CI_PIPELINE_ID --region eu"
   environment:
     name: review/$CI_PROJECT_ID-$CI_PIPELINE_ID
     url: https://bas-ra-$CI_PROJECT_ID-$CI_PIPELINE_ID.herokuapp.com/
@@ -102,17 +99,14 @@ stop_review:
     entrypoint: [""]
   variables:
     GIT_STRATEGY: none
-#  before_script:
-#    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
   script:
-    #- "heroku apps:destroy --app bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --confirm=bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT"
     - 'echo "destroying $review/$CI_PROJECT_ID-$CI_PIPELINE_ID"'
   when: manual
   environment:
     name: review/$CI_PROJECT_ID-$CI_PIPELINE_ID
     action: stop
 
-package-heroku:
+package-heroku-prod:
   stage: package
   tags:
     - dnd
@@ -124,12 +118,34 @@ package-heroku:
   script:
     - "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $GITLAB_REGISTRY"
     - "docker login -u _ -p $HEROKU_API_KEY registry.heroku.com"
-    - "docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.heroku --build-arg APP_RELEASE=$CI_COMMIT_SHA ."
+    - "docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.heroku --build-arg APP_RELEASE=$CI_COMMIT_SHA --build-arg APP_ENV=production ."
     - "docker push registry.heroku.com/$HEROKU_APP_NAME/web"
   only:
     - master
 
-deploy-heroku:
+package-heroku-review:
+  stage: package
+  tags:
+    - dnd
+  services:
+    - docker:dind
+  image:
+    name: docker:stable-dind
+    entrypoint: [""]
+  before_script:
+    - 'export RA_NAME="bas-ra-$CI_PROJECT_ID-$CI_PIPELINE_ID"'
+  script:
+    - "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $GITLAB_REGISTRY"
+    - "docker login -u _ -p $HEROKU_API_KEY registry.heroku.com"
+    - "docker build -t registry.heroku.com/$RA_NAME/web -f Dockerfile.heroku --build-arg APP_RELEASE=$CI_COMMIT_SHA --build-arg APP_ENV=review ."
+    - "docker push registry.heroku.com/$RA_NAME/web"
+  only:
+    - branches
+  except:
+    - master
+    - tags
+
+deploy-heroku-prod:
   stage: deploy
   image:
     name: wingrunr21/alpine-heroku-cli
@@ -142,13 +158,40 @@ deploy-heroku:
     name: Production
     url: https://bas-style-kit-file-upload.herokuapp.com/
 
-deploy-sentry:
+deploy-heroku-review:
+  stage: deploy
+  image:
+    name: wingrunr21/alpine-heroku-cli
+    entrypoint: [""]
+  script:
+    - "heroku container:release web --app bas-ra-$CI_PROJECT_ID-$CI_PIPELINE_ID"
+  only:
+    - branches
+  except:
+    - master
+    - tags
+
+deploy-sentry-prod:
   stage: deploy
   image:
     name: getsentry/sentry-cli
     entrypoint: [""]
   script:
-    - "sentry-cli releases new --finalize $CI_COMMIT_SHA"
+    - "sentry-cli releases finalize $CI_COMMIT_SHA"
     - "sentry-cli releases deploys $CI_COMMIT_SHA new -e production"
   only:
     - master
+
+deploy-sentry-review:
+  stage: deploy
+  image:
+    name: getsentry/sentry-cli
+    entrypoint: [""]
+  script:
+    - "sentry-cli releases new $CI_COMMIT_SHA"
+    - "sentry-cli releases deploys $CI_COMMIT_SHA new -e review"
+  only:
+    - branches
+  except:
+    - master
+    - tags
