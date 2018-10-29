@@ -85,7 +85,7 @@ review:
   script:
     - "heroku apps:create bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --no-remote --region eu"
   environment:
-    name: review/$CI_BUILD_REF_NAME
+    name: review/$CI_COMMIT_REF_SLUG_SHORT
     url: https://bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT.herokuapp.com/
     on_stop: stop_review
   only:
@@ -102,12 +102,12 @@ stop_review:
   before_script:
     - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
   script:
-    - "heroku apps:destroy --app bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --confirm=confirm"
+    - "heroku apps:destroy --app bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --confirm=bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT"
   variables:
     GIT_STRATEGY: none
   when: manual
   environment:
-    name: review/$CI_BUILD_REF_NAME
+    name: review/$CI_COMMIT_REF_SLUG_SHORT
     action: stop
 
 package-heroku:
