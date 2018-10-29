@@ -26,6 +26,7 @@ stages:
   - test
   - lint
   - package
+  - review
   - deploy
 
 variables:
@@ -71,6 +72,43 @@ bandit-app:
   stage: lint
   script:
     - "bandit -r ."
+
+review:
+  stage: review
+  image:
+    name: wingrunr21/alpine-heroku-cli
+    entrypoint: [""]
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
+  script:
+    - "heroku apps:create bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --no-remote --region eu"
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    url: https://bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT.herokuapp.com/
+    on_stop: stop_review
+  only:
+    - branches
+  except:
+    - master
+    - tags
+
+stop_review:
+  stage: review
+  image:
+    name: wingrunr21/alpine-heroku-cli
+    entrypoint: [""]
+  before_script:
+    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
+  script:
+    - "heroku apps:destroy --app bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --confirm=confirm"
+  variables:
+    GIT_STRATEGY: none
+  when: manual
+  environment:
+    name: review/$CI_BUILD_REF_NAME
+    action: stop
 
 package-heroku:
   stage: package
