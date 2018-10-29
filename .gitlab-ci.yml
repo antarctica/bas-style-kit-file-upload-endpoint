@@ -83,11 +83,11 @@ review:
   #  before_script:
   #    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
   script:
-    - 'echo "creating $CI_PROJECT_ID-CI_PIPELINE_ID"'
     # - "heroku apps:create bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --no-remote --region eu"
+    - 'echo "creating $CI_PROJECT_ID-$CI_PIPELINE_ID"'
   environment:
-    name: review/$CI_PROJECT_ID-CI_PIPELINE_ID
-    url: https://bas-ra-$CI_PROJECT_ID-CI_PIPELINE_ID.herokuapp.com/
+    name: review/$CI_PROJECT_ID-$CI_PIPELINE_ID
+    url: https://bas-ra-$CI_PROJECT_ID-$CI_PIPELINE_ID.herokuapp.com/
     on_stop: stop_review
   only:
     - branches
@@ -105,11 +105,11 @@ stop_review:
 #  before_script:
 #    - "export CI_COMMIT_REF_SLUG_SHORT=`echo $CI_COMMIT_REF_SLUG | cut -c1-19`"
   script:
-    - 'echo "destroying $review/$CI_PROJECT_ID-CI_PIPELINE_ID"'
     #- "heroku apps:destroy --app bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT --confirm=bra-bskfue-$CI_COMMIT_REF_SLUG_SHORT"
+    - 'echo "destroying $review/$CI_PROJECT_ID-$CI_PIPELINE_ID"'
   when: manual
   environment:
-    name: review/$CI_PROJECT_ID-CI_PIPELINE_ID
+    name: review/$CI_PROJECT_ID-$CI_PIPELINE_ID
     action: stop
 
 package-heroku:
