@@ -15,6 +15,14 @@ class MetaBlueprintTestCase(unittest.TestCase):
     def tearDown(self):
         self.app_context.pop()
 
+    def test_meta_healthcheck_canary_get(self):
+        response = self.client.get('/meta/health/canary')
+        self.assertEqual(response.status_code, HTTPStatus.NO_CONTENT)
+
+    def test_meta_healthcheck_canary_options(self):
+        response = self.client.options('/meta/health/canary')
+        self.assertEqual(response.status_code, HTTPStatus.NO_CONTENT)
+
     def test_meta_errors_generic_bad_request(self):
         expected_error = {
             'detail': 'No additional information is available, check your request and try again',
