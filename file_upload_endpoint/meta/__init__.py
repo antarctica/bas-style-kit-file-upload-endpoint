@@ -5,6 +5,11 @@ from flask import Blueprint, abort
 meta = Blueprint('meta', __name__)
 
 
+@meta.route('/meta/health/canary', methods=['get', 'options'])
+def meta_healthcheck_canary():
+    return '', HTTPStatus.NO_CONTENT
+
+
 @meta.route('/meta/errors/generic-bad-request')
 def meta_errors_generic_bad_request():
     abort(HTTPStatus.BAD_REQUEST)

@@ -55,6 +55,17 @@ To ensure the reliability of this API, errors are logged to
 Through [Continuous Deployment](#continuous-deployment), each commit to the `master` branch in the project repository 
 creates a new Sentry release, associated the *production* environment through a deployment using the Sentry CLI.
 
+### Health checks
+
+Endpoints are available to allow the health of this API to be monitored. This can be used by load balancers to avoid
+unhealthy instances or monitoring reporting tools to prompt repairs by operators.
+
+#### [GET|OPTIONS] `/meta/health/canary`
+
+Reports on the overall health of this service as a boolean *healthy/unhealthy* status.
+
+Returns a `204 - NO CONTENT` response when healthy. Any other response should be considered unhealthy.
+
 ## Setup
 
 ### Local development
