@@ -4,6 +4,14 @@
 
 This API follows the [JSON API](http://jsonapi.org/format/1.0/) standard, unless stated otherwise.
 
+## Support
+
+No support is offered for this API, it is provided on an 'As Is' basis, without any guarantees as to its reliability or 
+performance. Limited, best effort, support is offered for those using this API to test file upload components within the 
+BAS Style Kit. 
+
+Contact the [BAS Service Desk](mailto:servicedesk@bas.ac.uk) if this applies to you.
+
 ## Endpoints
 
 The endpoint for this API is `https://bas-style-kit-file-upload.herokuapp.com/`. 
@@ -41,6 +49,17 @@ Uploaded files are not stored or read by this API. Nevertheless do not upload fi
 
 Requests with a content length greater than `10485760` bytes (*10mb*) will be rejected by this API with a 
 [413 Request Entity Too Large](#413-request-entity-too-large) error.
+
+## Request IDs
+
+All requests will include a `X-Request-ID` header to aid in debugging requests through different components.
+
+If desired, a custom request ID can be specified by the client which will be used instead of, or in addition to a API
+generated value.
+
+**Note:** In some cases a client specified value will be ignored, ensure you do not rely on this value being returned.
+
+**Note:** This header may include multiple values (multiple Request IDs) separated by a `,` with possible whitespace. 
 
 ## CORS
 
@@ -89,14 +108,6 @@ The `id` property will vary with each error using a UUID version 4, the values s
 
 **Note:** Errors are captured by an error tracking service, you don't need to report them unless you wish to provide 
 any additional information about an error.
-
-## Support
-
-No support is offered for this API, it is provided on an 'As Is' basis, without any guarantees as to its reliability or 
-performance. Limited, informal, support is offered for those using this API to test file upload components within the 
-BAS Style Kit. 
-
-Contact the [BAS Service Desk](mailto:servicedesk@bas.ac.uk) if this applies to you.
 
 ### `400 file field missing in request`
 
@@ -324,7 +335,7 @@ The `meta.instance_mime_type` property will vary on each error, the value below 
           "image/jpeg"
         ],
         "instance_mime_type": "image/png"
-      }
+      },
       "status": 415,
       "title": "File type uploaded is not allowed"
     }

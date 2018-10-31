@@ -32,7 +32,7 @@ components:
                     schema:
                       type: integer
                       maximum: 10485760
-      required: True
+      required: true
 tags:
   - name: upload
     description: File upload
@@ -199,7 +199,7 @@ paths:
                     schema:
                       type: integer
                       maximum: 10485760
-        required: True
+        required: true
       responses:
         204:
           description: "Successful upload"

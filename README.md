@@ -40,12 +40,21 @@ describes how to set any required, or frequently changed options. See `config.py
 ### Request IDs
 
 To aid in debugging, all requests will include a `X-Request-ID` header with one or more values. This can be used to
-trace requests through different services such as a load balancer, cache and other layers.
+trace requests through different services such as a load balancer, cache and other layers. Request IDs are managed by 
+the *Request ID* middleware. The `X-Request-ID` header is returned to users and other components as a response header.
 
-This API will check whether incoming requests already include a request ID, if a single value has been set (either by 
-another service or by the client) an additional value is appended to ensure there is at least one known unique value 
-(as a client may use something non-unique). If there are already multiple values it is assumed this has already been
-done and that one is already unique. Where there isn't a request ID, one will be assigned.
+See the [Correlation ID](https://gitlab.data.bas.ac.uk/WSF/api-load-balancer#correlation-id) documentation for how the
+BAS API Load Balancer handles Request IDs.
+
+If there isn't a `X-Request-ID` header, one will be added by this API.
+
+To access the Request ID within the application:
+
+```python
+from flask import request
+
+print(request.environ.get("HTTP_X_REQUEST_ID"))
+```
 
 ### Error tracking
 
