@@ -50,6 +50,17 @@ Uploaded files are not stored or read by this API. Nevertheless do not upload fi
 Requests with a content length greater than `10485760` bytes (*10mb*) will be rejected by this API with a 
 [413 Request Entity Too Large](#413-request-entity-too-large) error.
 
+## Request IDs
+
+All requests will include a `X-Request-ID` header to aid in debugging requests through different components.
+
+If desired, a custom request ID can be specified by the client which will be used instead of, or in addition to a API
+generated value.
+
+**Note:** In some cases a client specified value will be ignored, ensure you do not rely on this value being returned.
+
+**Note:** This header may include multiple values (multiple Request IDs) separated by a `,` with possible whitespace. 
+
 ## CORS
 
 This API supports [Cross Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
