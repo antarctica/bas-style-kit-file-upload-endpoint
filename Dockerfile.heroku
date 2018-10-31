@@ -1,4 +1,4 @@
-FROM docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint:0.2.0-alpine
+FROM docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint:0.3.0-develop-alpine
 
 LABEL maintainer = "Felix Fennell <felnne@bas.ac.uk>"
 
