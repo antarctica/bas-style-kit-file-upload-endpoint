@@ -41,7 +41,7 @@ variables:
   SNYK_PROJECT: bsk-file-upload-endpoint
 
 image:
-  name: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint:0.2.0-alpine
+  name: docker-registry.data.bas.ac.uk/web-apps/bsk/bas-style-kit-file-upload-endpoint:0.3.0-develop-alpine
   entrypoint: [""]
 
 # == Jobs ==
