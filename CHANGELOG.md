@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 0.2.0 (2018-10-31) [BREAKING!]
+
 ### Changed [BREAKING]
 
-* Sentry updated to new packages, new DNS values required
+* Sentry updated to new packages, new DSN required
 
 ### Added
 
