@@ -2,6 +2,9 @@
 
 A minimal API implementing a simple form action for testing file upload components in the BAS Style Kit.
 
+This API is also used for testing generic features used across BAS APIs. See the [General features](#general-features)
+section for more information.
+
 **Note:** This API is not part of [api.bas.ac.uk](https://api.bas.ac.uk).
 
 ## Purpose
@@ -16,6 +19,17 @@ Kit to test cross origin requests, which are restricted by Web Browsers for secu
 
 **Note:** This API is not intended, and does not, store uploaded files. It is not intended for any use beyond testing 
 or demonstrating file upload components in the Style Kit.
+
+### Generic features
+
+In addition to providing a file upload endpoint, this API is used for developing features that are common or generic in
+nature for use by other BAS APIs. Some of these features are generic, or can demonstrate generic features, such as using
+[Request IDs][#request-ids]. Others are features specific to developing APIs using Flask or it's wider ecosystem.
+
+This API is used rather than developing a synthetic 'demonstrator' application and means that effort is not wasted on
+an API that does nothing useful by itself. Consequently this API may seem 'over the top' for what it does, which is 
+after all, quite simple. Some features, such as database support, are out of scope however, as it wouldn't make sense to 
+add based on what this API does.
 
 ## Usage
 
