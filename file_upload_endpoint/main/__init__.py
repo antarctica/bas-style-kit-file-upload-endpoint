@@ -10,6 +10,13 @@ main = Blueprint('main', __name__)
 
 
 def common_single_file():
+    """
+    Common file processing logic
+
+    Checks a 'file' form input is included in a request and isn't an empty selection.
+    Aborts the request with the appropriate error if these checks fail.
+    """
+
     if 'file' not in request.files:
         payload = {'errors': [error_no_file('file')]}
         abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
@@ -24,6 +31,10 @@ def common_single_file():
 
 @main.route("/")
 def index():
+    """
+    Returns a simple welcome message
+    """
+
     payload = {
         'meta': {
             'summary': 'A minimal API implementing a simple form action for testing file upload components in the BAS '
@@ -36,12 +47,24 @@ def index():
 
 @main.route('/upload-single', methods=['post'])
 def upload_single():
+    """
+    Accepts a single file upload
+
+    The uploaded file is not used or stored.
+    """
+
     common_single_file()
     return '', HTTPStatus.NO_CONTENT
 
 
 @main.route('/upload-multiple', methods=['post'])
 def upload_multiple():
+    """
+    Accepts multiple file uploads using the form array convention
+
+    The uploaded files are not used or stored.
+    """
+
     files = request.files.getlist('files[]')
 
     if len(files) <= 0:
@@ -58,6 +81,14 @@ def upload_multiple():
 
 @main.route('/upload-single-restricted-size', methods=['post'])
 def upload_single_restricted_size():
+    """
+    Accepts a single file upload but with an artificially small maximum file size
+
+    Designed to prevent needing to use large files for testing when a user uploads a file that is too large.
+
+    The uploaded file is not used or stored.
+    """
+
     content_length = request.content_length
     upload_limit = 1024 * 40  # 40KB
 
@@ -71,6 +102,14 @@ def upload_single_restricted_size():
 
 @main.route('/upload-single-restricted-mime-types', methods=['post'])
 def upload_single_restricted_mime_types():
+    """
+    Accepts a single file upload but with an artificially limited set of allowed MIME types
+
+    Designed to more easily test when a user uploads an unsupported file type.
+
+    The uploaded file is not used or stored.
+    """
+
     file = common_single_file()
 
     file_content_type = file.content_type
