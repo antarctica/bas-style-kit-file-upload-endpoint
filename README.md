@@ -280,10 +280,6 @@ Each review app is a standalone Heroku application, configured in the same way a
 each application is computed based on a common prefix (`bas-ra`), the project (in GitLab) and CI/CD pipeline being ran. 
 See the [Herok](#heroku) section for more information on how this project runs on Heroku.
 
-**Note:** Due to limitations with GitLab, review apps for a given branch (i.e. its commits) may not be correctly 
-removed when the branch is merged. This will require manually removing any orphaned applications through the 
-[Heroku dashboard](https://dashboard.heroku.com/).
-
 ## Deployment
 
 ### Heroku

@@ -21,6 +21,7 @@ class RequestID(object):
     Where possible we try to ensure there is at least one unique request ID value (typically a UUID) whilst respecting
     a request ID value given by a client, but which may not be unique.
     """
+
     def __init__(self, app: App):
         self._header_name = "X-Request-ID"
         self._flask_header_name = f"HTTP_{ self._header_name.upper().replace('-', '_') }"
@@ -57,6 +58,7 @@ class RequestID(object):
         :rtype: str
         :return: computed value for Request ID HTTP header
         """
+
         has_unique_header = False
 
         if header_value is None:
@@ -89,6 +91,7 @@ class RequestID(object):
         :rtype: bool
         :return: whether the Request ID is unique or not
         """
+
         is_unique = False
 
         # check if the Request ID is from the BAS Load Balancer
@@ -112,4 +115,5 @@ class RequestID(object):
         :rtype: str
         :return: unique request ID
         """
+
         return str(uuid4())
