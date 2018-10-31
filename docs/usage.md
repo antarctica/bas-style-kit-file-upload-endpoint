@@ -4,53 +4,70 @@
 
 This API follows the [JSON API](http://jsonapi.org/format/1.0/) standard, unless stated otherwise.
 
-## Support
+## General information
 
-No support is offered for this API, it is provided on an 'As Is' basis, without any guarantees as to its reliability or 
-performance. Limited, best effort, support is offered for those using this API to test file upload components within the 
-BAS Style Kit. 
+### Support
+
+Limited, best effort, support is offered for those using this API to test file upload components within the BAS Style 
+Kit.
+
+This API is designed for testing and provided without any availability, reliability or performance guarantees.
 
 Contact the [BAS Service Desk](mailto:servicedesk@bas.ac.uk) if this applies to you.
 
-## Endpoints
+### Information handling
 
-The endpoint for this API is `https://bas-style-kit-file-upload.herokuapp.com/`. 
+This API processes files upload to it in order to complete its function. During processing the type and size of uploaded
+files is used and may be returned in an error response to assist the user to use this API.
+
+This API does not store uploaded files, or access their contents. Once processed, files cannot be accessed.
+
+Information transmitted to and from this API is protected using HTTPS. We ensure any third party services, such as 
+hosting platforms or monitoring and analytics tools, have measures in place to protect information they host or we 
+provide to them, and we ensure such services are used appropriately for a necessary task.
+
+Applicable services used by this API are:
+
+* [Heroku](https://heroku.com) - for hosting the API
+* [Sentry](https://sentry.io/) - for reporting API errors
+
+**Note:** Despite these safeguards, this API is meant for testing any so sensitive information should not be uploaded.
+
+This API is provided by the [British Antarctic Survey](https://www.bas.ac.uk), part of 
+[UK Research and Innovation](https://www.ukri.org).
+
+If you have any questions about how information is used by this API please contact the 
+[BAS Service Desk](mailto:servicedesk@bas.ac.uk) in the first instance. If you do not receive a reply within a few days
+please contact the [BAS Freedom of Information Officer](foi@bas.ac.uk).
+
+### Security disclosures
+
+Please report any security disclosures with this API to the [BAS Service Desk](mailto:servicedesk@bas.ac.uk).
+
+Contact us for instructions if you need to report any sensitive information.
+
+### Versioning policy
+
+This API does not currently use versioning.
+
+As this API is designed for testing, it may change significantly over time. Where possible backwards compatibility will
+be preserved but this is not guaranteed.
+
+## Technical information
+
+### Base URL
+
+The base URL is `https://bas-style-kit-file-upload.herokuapp.com/`. 
 
 This API is only available over `HTTPS`.
 
-## Content Types
+### Content Types
 
 This API supports the `application/json` content type only, unless stated otherwise.
 
-## Encoding
+This API supports `UTF-8` character encoding only, unless stated otherwise.
 
-This API supports, and assumes the use of, *UTF-8* character encoding, unless stated otherwise.
-
-## Form actions
-
-The methods provided by this API are intended to be used as form actions. 
-
-You must use the `multipart/form-data` encoding type and content type to submit files.
-
-**Note:** Do not use the default `application/json` content type for form actions.
-
-E.g.
-
-```html
-<form method="POST" enctype="multipart/form-data" action="https://bas-style-kit-file-upload.herokuapp.com/upload-single">
-</form>
-```
-
-## Uploaded files
-
-Uploaded files are not stored or read by this API. Nevertheless do not upload files containing sensitive information.
-
-## Upload limit
-
-Requests with a content length greater than `10485760` bytes (*10mb*) will be rejected by this API with a 
-[413 Request Entity Too Large](#413-request-entity-too-large) error.
-
-## Request IDs
+### Request IDs
 
 All requests will include a `X-Request-ID` header to aid in debugging requests through different components.
 
@@ -61,7 +78,7 @@ generated value.
 
 **Note:** This header may include multiple values (multiple Request IDs) separated by a `,` with possible whitespace. 
 
-## CORS
+### CORS
 
 This API supports [Cross Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
 
@@ -97,6 +114,11 @@ The wildcard (`*`) origin is not supported.
 **Note:** Only the relevant origin will be listed in the `Access-Control-Allow-Origin` header as not all browsers 
 support multiple values. A `Vary` header is set to indicate this value may change on each response and should not be 
 cached.
+
+### Upload limit
+
+Requests with a content length greater than `10485760` bytes (*10mb*) will be rejected by this API with a 
+[413 Request Entity Too Large](#413-request-entity-too-large) error.
 
 ## Errors
 
@@ -166,6 +188,21 @@ This API has no resources.
 
 ## Standalone methods
 
+### HTML form actions
+
+The upload methods provided by this API are intended to be used as form actions. 
+
+You must use the `multipart/form-data` encoding/content type to upload files.
+
+**Note:** Do not use the default `application/json` content type for form actions.
+
+E.g.
+
+```html
+<form method="POST" enctype="multipart/form-data" action="https://bas-style-kit-file-upload.herokuapp.com/upload-single">
+</form>
+```
+
 ### [GET] `/`
 
 Gives a high level summary of this API.
@@ -194,7 +231,7 @@ Upload a single file.
 
 #### Request
 
-Type: [Form data](#form-actions)
+Content type: [Form data](#form-actions)
 
 ##### Body form fields
 
@@ -225,7 +262,7 @@ Upload multiple files.
 
 #### Request
 
-Type: [Form data](#form-actions)
+Content type: [Form data](#form-actions)
 
 ##### Body form fields
 
@@ -261,7 +298,7 @@ regular [Upload limit](#upload-limit) applies.
 
 #### Request
 
-Type: [Form data](#form-actions)
+Content type: [Form data](#form-actions)
 
 ##### Body form fields
 
@@ -295,7 +332,7 @@ type. Normally any type of file can be uploaded.
 
 #### Request
 
-Type: [Form data](#form-actions)
+Content type: [Form data](#form-actions)
 
 ##### Body form fields
 

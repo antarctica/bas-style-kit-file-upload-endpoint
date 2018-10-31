@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+* Documented how this API is used more widely for testing generic features and acting as an example Flask API
+
+### Changed
+
+* Improving end-user usage information
+
 ## 0.2.0 (2018-10-31) [BREAKING!]
 
 ### Changed [BREAKING]
