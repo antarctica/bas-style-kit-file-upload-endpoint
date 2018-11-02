@@ -58,8 +58,8 @@ be preserved but this is not guaranteed.
 ### Base URL
 
 The base URL is `https://bas-style-kit-file-upload.herokuapp.com/`. 
+**Note:** This API is only available over `HTTPS`.
 
-This API is only available over `HTTPS`.
 
 ### Content Types
 
@@ -82,11 +82,11 @@ generated value.
 
 This API supports [Cross Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
 
-### Preflight requests
+#### Preflight requests
 
 All methods support preflight requests as per the CORS standard using the `OPTIONS` verb.
 
-### Allowed headers
+#### Allowed headers
 
 In addition to the headers allowed in 
 [simple requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests):
@@ -94,7 +94,7 @@ In addition to the headers allowed in
 * `Cache-Control`
 * `X-Requested-With`
 
-### Allowed methods/verbs
+#### Allowed methods/verbs
 
 * `OPTIONS`
 * `GET`
@@ -102,7 +102,7 @@ In addition to the headers allowed in
 
 **Note:** Only the supported verbs for a method. I.e. for a `GET` method, only `GET, OPTIONS` will be returned.
 
-### Allowed origins
+#### Allowed origins
 
 * `http://localhost:9000` (for local versions of the Style Kit and Style Kit documentation)
 * `https://style-kit.web.bas.ac.uk`
@@ -131,7 +131,7 @@ The `id` property will vary with each error using a UUID version 4, the values s
 **Note:** Errors are captured by an error tracking service, you don't need to report them unless you wish to provide 
 any additional information about an error.
 
-### `400 file field missing in request`
+### `400` - File field missing in request`
 
 ```json
 {
@@ -146,7 +146,7 @@ any additional information about an error.
 }
 ```
 
-### `400 file field value is an empty selection`
+### `400` - File field value is an empty selection`
 
 ```json
 {
@@ -161,7 +161,7 @@ any additional information about an error.
 }
 ```
 
-### `413 - Request Entity Too Large`
+### `413` - Request Entity Too Large`
 
 The `meta.request_content_length` property will vary on each error, the value below is an example.
 

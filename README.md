@@ -158,7 +158,7 @@ situations. For example in the development environment, Sentry error tracking is
 New features should be implemented with appropriate [Configuration](#configuration) options available. Sensible defaults 
 for each environment, and if needed feature flags, should allow end-users to fine tune which features are enabled.
 
-**Note:** Ensure `.env.example` is kept up-to-date if any configuration options are added or changed.
+Ensure `.env.example` is kept up-to-date if any configuration options are added or changed.
 
 Ensure [Integration tests](#integration-tests) are written for any new feature, or changes to existing features.
 
