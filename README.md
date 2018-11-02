@@ -5,8 +5,6 @@ A minimal API implementing a simple form action for testing file upload componen
 This API is also used for testing generic features used across BAS APIs. See the [General features](#general-features)
 section for more information.
 
-**Note:** This API is not part of [api.bas.ac.uk](https://api.bas.ac.uk).
-
 ## Purpose
 
 The [BAS Style Kit](https://style-kit.web.bas.ac.uk) includes interactive components for file uploads, to help develop 
@@ -158,9 +156,11 @@ situations. For example in the development environment, Sentry error tracking is
 New features should be implemented with appropriate [Configuration](#configuration) options available. Sensible defaults 
 for each environment, and if needed feature flags, should allow end-users to fine tune which features are enabled.
 
-**Note:** Ensure `.env.example` is kept up-to-date if any configuration options are added or changed.
+Ensure `.env.example` is kept up-to-date if any configuration options are added or changed.
 
 Ensure [Integration tests](#integration-tests) are written for any new feature, or changes to existing features.
+
+Ensure the [end user usage](#usage) documentation is kept up-to-date as API methods, options, etc. change.  
 
 [1] If in BAS, access to the associated book is available from the Web & Applications Team.
 

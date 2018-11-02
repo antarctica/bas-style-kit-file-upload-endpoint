@@ -7,9 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed [BREAKING!]
+
+* API placed under the BAS API Load Balancer (Test environment), endpoint URLs have changed
+* API is now versioned, all existing features are placed in a `v1` version
+
 ### Added
 
 * Documented how this API is used more widely for testing generic features and acting as an example Flask API
+* Versioning policy
+* Deprecation policy
+* change log for API rather than project changes, aimed at end-users
 
 ### Changed
 

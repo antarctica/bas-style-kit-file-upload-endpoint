@@ -48,18 +48,40 @@ Contact us for instructions if you need to report any sensitive information.
 
 ### Versioning policy
 
-This API does not currently use versioning.
+This API uses versioning. An API version must be specified as a URL prefix (e.g. `/v1/foo`).
 
-As this API is designed for testing, it may change significantly over time. Where possible backwards compatibility will
-be preserved but this is not guaranteed.
+The [API change log](./change-log) describes changes within and between different versions.
+
+Non-breaking changes, such as adding new options, may be made within a version. Breaking changes, such as renaming a
+resource or changing a response structure, will be made as part of a new version. Major, non-breaking, changes may 
+result in a new version, decided on a case by case basis.
+
+**Note:** As this API is designed for testing, it may change significantly over time.
+
+Only the latest API version is supported (see the [Support](#support) section for details). When a new version is 
+released previous versions are deprecated. See the [Deprecation policy](#deprecation-policy) for how deprecated versions
+are later removed.
+
+### Deprecation policy
+
+Features may be deprecated in this API as it evolves. This may include changes to options, methods, resources and API
+versions. Usually an alternative feature will be available but in some cases a feature may be removed without one.
+
+In either case, once deprecated it is expected the feature will be removed, with a timeline defined to ensure clients have time to update their implementations to use preferred/supported alternatives where available.
+
+Deprecated features will be referenced in this documentation and the [API change log](./change-log).
 
 ## Technical information
 
 ### Base URL
 
-The base URL is `https://bas-style-kit-file-upload.herokuapp.com/`. 
+The base URL is `https://testing.api.bas.ac.uk/bas-style-kit-file-upload/v1`. 
 
-This API is only available over `HTTPS`.
+**Note:** This URL includes the currently released version, `v1`. 
+
+**Note:** This API is only available over `HTTPS`.
+
+**Note:** This API is currently available as a testing API
 
 ### Content Types
 
@@ -82,11 +104,11 @@ generated value.
 
 This API supports [Cross Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
 
-### Preflight requests
+#### Preflight requests
 
 All methods support preflight requests as per the CORS standard using the `OPTIONS` verb.
 
-### Allowed headers
+#### Allowed headers
 
 In addition to the headers allowed in 
 [simple requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests):
@@ -94,7 +116,7 @@ In addition to the headers allowed in
 * `Cache-Control`
 * `X-Requested-With`
 
-### Allowed methods/verbs
+#### Allowed methods/verbs
 
 * `OPTIONS`
 * `GET`
@@ -102,7 +124,7 @@ In addition to the headers allowed in
 
 **Note:** Only the supported verbs for a method. I.e. for a `GET` method, only `GET, OPTIONS` will be returned.
 
-### Allowed origins
+#### Allowed origins
 
 * `http://localhost:9000` (for local versions of the Style Kit and Style Kit documentation)
 * `https://style-kit.web.bas.ac.uk`
@@ -131,7 +153,7 @@ The `id` property will vary with each error using a UUID version 4, the values s
 **Note:** Errors are captured by an error tracking service, you don't need to report them unless you wish to provide 
 any additional information about an error.
 
-### `400 file field missing in request`
+### `400` - File field missing in request`
 
 ```json
 {
@@ -146,7 +168,7 @@ any additional information about an error.
 }
 ```
 
-### `400 file field value is an empty selection`
+### `400` - File field value is an empty selection`
 
 ```json
 {
@@ -161,7 +183,7 @@ any additional information about an error.
 }
 ```
 
-### `413 - Request Entity Too Large`
+### `413` - Request Entity Too Large`
 
 The `meta.request_content_length` property will vary on each error, the value below is an example.
 
