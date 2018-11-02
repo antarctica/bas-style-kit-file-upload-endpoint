@@ -48,18 +48,40 @@ Contact us for instructions if you need to report any sensitive information.
 
 ### Versioning policy
 
-This API does not currently use versioning.
+This API uses versioning. An API version must be specified as a URL prefix (e.g. `/v1/foo`).
 
-As this API is designed for testing, it may change significantly over time. Where possible backwards compatibility will
-be preserved but this is not guaranteed.
+The [API change log](./change-log) describes changes within and between different versions.
+
+Non-breaking changes, such as adding new options, may be made within a version. Breaking changes, such as renaming a
+resource or changing a response structure, will be made as part of a new version. Major, non-breaking, changes may 
+result in a new version, decided on a case by case basis.
+
+**Note:** As this API is designed for testing, it may change significantly over time.
+
+Only the latest API version is supported (see the [Support](#support) section for details). When a new version is 
+released previous versions are deprecated. See the [Deprecation policy](#deprecation-policy) for how deprecated versions
+are later removed.
+
+### Deprecation policy
+
+Features may be deprecated in this API as it evolves. This may include changes to options, methods, resources and API
+versions. Usually an alternative feature will be available but in some cases a feature may be removed without one.
+
+In either case, once deprecated it is expected the feature will be removed, with a timeline defined to ensure clients have time to update their implementations to use preferred/supported alternatives where available.
+
+Deprecated features will be referenced in this documentation and the [API change log](./change-log).
 
 ## Technical information
 
 ### Base URL
 
-The base URL is `https://bas-style-kit-file-upload.herokuapp.com/`. 
+The base URL is `https://testing.api.bas.ac.uk/bas-style-kit-file-upload/v1`. 
+
+**Note:** This URL includes the currently released version, `v1`. 
+
 **Note:** This API is only available over `HTTPS`.
 
+**Note:** This API is currently available as a testing API
 
 ### Content Types
 
