@@ -19,6 +19,7 @@ class Config(object):
     APP_ENABLE_CORS = str2bool(os.environ.get('APP_ENABLE_CORS')) or True
     APP_ENABLE_REQUEST_ID = str2bool(os.environ.get('APP_ENABLE_REQUEST_ID')) or True
 
+    LOGGING_LEVEL = logging.WARNING
 
     MAX_CONTENT_LENGTH = int(os.environ.get('APP_MAX_UPLOAD_BYTES', 10 * 1024 * 1024))  # default: 10MB
 
@@ -62,14 +63,18 @@ class TestConfig(Config):
     TESTING = True
     APP_ENABLE_SENTRY = str2bool(os.environ.get('APP_ENABLE_SENTRY')) or False
 
+    LOGGING_LEVEL = logging.DEBUG
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
     APP_ENABLE_SENTRY = str2bool(os.environ.get('APP_ENABLE_SENTRY')) or False
 
+    LOGGING_LEVEL = logging.INFO
+
 
 class ReviewConfig(Config):
-    pass
+    LOGGING_LEVEL = logging.INFO
 
 
 class ProductionConfig(Config):

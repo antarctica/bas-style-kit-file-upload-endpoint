@@ -1,6 +1,9 @@
+import logging
+
 import sentry_sdk
 
-from flask import Flask
+from flask import Flask, request, has_request_context
+from flask.logging import default_handler
 from flask_cors import CORS
 
 from config import config
@@ -25,6 +28,24 @@ def create_app(config_name):
         CORS(app, **app.config['CORS_CONFIG'])
     if app.config['APP_ENABLE_REQUEST_ID']:
         RequestID(app)
+
+    # Logging
+    class RequestFormatter(logging.Formatter):
+        def format(self, record):
+            record.url = 'NA'
+            record.request_id = 'NA'
+
+            if has_request_context():
+                record.url = request.url
+                if app.config['APP_ENABLE_REQUEST_ID']:
+                    record.request_id = request.environ.get("HTTP_X_REQUEST_ID")
+
+            return super().format(record)
+    formatter = RequestFormatter(
+        '[%(asctime)s] [%(levelname)s] [%(request_id)s] [%(url)s] %(module)s: %(message)s'
+    )
+    default_handler.setFormatter(formatter)
+    default_handler.setLevel(app.config['LOGGING_LEVEL'])
 
     # Error handlers
     app.register_error_handler(400, error_handler_generic_bad_request)

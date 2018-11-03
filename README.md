@@ -236,6 +236,13 @@ application. As with all security tools, Bandit is an aid for spotting common mi
 
 Through [Continuous Integration](#continuous-integration), each commit is tested.
 
+### Logging
+
+In a request context, the default Flask log will include the URL and [Request ID](#request-ids) of the current request.
+In other cases, these fields are substituted with `NA`.
+
+**Note:** When not running in Flask Debug mode, only messages with a severity of warning of higher will be logged.
+
 ### Reserved routes
 
 These routes are reserved and **MUST NOT** be implemented:
