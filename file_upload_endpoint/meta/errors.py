@@ -2,6 +2,8 @@ from http import HTTPStatus
 from uuid import uuid4
 
 import sentry_sdk
+from cerberus import Validator
+from cerberus.errors import ValidationError  # noqa: F401
 from flask import request, make_response, jsonify, current_app as app
 
 
@@ -83,6 +85,63 @@ def error_too_large(maximum_size: int, request_size: int) -> dict:
             'content_length_units': 'bytes'
         }
     }
+
+
+def error_request_validation(validator: Validator, schema: dict) -> list:
+    """
+    Generates errors for each invalid field in a validation schema
+
+    This function returning errors for end-users when a Cerberus validator returns False. Cerberus is a Python
+    validation library, http://docs.python-cerberus.org, it uses a schema mapping (dict) to define validation
+    requirements.
+
+    This function accepts a Cerberus validator and loops through its errors. Cerberus structures errors by schema field,
+    which this function flattens. For each error a standard set of information is extracted. For some validation rules,
+    additional context is added such as lists of allowed values.
+
+    To improve the errors returned to end-users, this application uses an extended validation schema that cannot be
+    used by Cerberus and needs to provided separately. This extended schema describes, for example, whether a 'field'
+    is a request parameter, query parameter, header, body field, etc.
+
+    :type validator: Validator
+    :param validator: Cerberus validator object
+
+    :type schema: dict
+    :param schema: Extended (application) validation schema
+
+    :rtype: list
+    :return: List of complete, JSON-API compatible error objects
+    """
+
+    validation_errors = []
+
+    # We can't iterate validator.document_error_tree directly as a dict of ValidatorError's, we therefore check whether
+    # each field in the validation schema has any errors and loop through them.
+    for schema_field in validator.schema.keys():
+        if schema_field in validator.document_error_tree:
+            for validator_error in validator.document_error_tree[schema_field]:  # type:ValidationError
+                # Base error information
+                validation_error = {
+                    'id': uuid4(),
+                    'status': HTTPStatus.BAD_REQUEST,
+                    'title': 'Request validation error',
+                    'detail': f"Invalid value for { schema[schema_field]['request_type'] } [{ schema_field }], "
+                              f"check your request and try again",
+                    'meta': {
+                        schema[schema_field]['request_type']: schema_field,
+                        'invalid_value': validator_error.value
+                    }
+                }
+
+                # Enrich certain types of validation error based on the validation rule
+                if validator_error.rule == 'allowed':
+                    validation_error['detail'] = f"Value for { schema[schema_field]['request_type'] } " \
+                        f"[{ schema_field }] invalid, check your request against the allowed values and try again"
+                    validation_error['meta']['allowed_values'] = validator_error.constraint
+
+                validation_errors.append(validation_error)
+
+    return validation_errors
 
 
 # noinspection PyUnusedLocal

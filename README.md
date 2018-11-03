@@ -243,6 +243,64 @@ In other cases, these fields are substituted with `NA`.
 
 **Note:** When not running in Flask Debug mode, only messages with a severity of warning of higher will be logged.
 
+### Request validation
+
+All user inputs **MUST** be validated and sanitised as needed. Where possible enumerated options should be used over
+free-text choices.
+
+The [Cerberus](http://docs.python-cerberus.org) library is used for validation, with schemas defined for each method.
+Where validation fails, the request should be aborted as a bad request, passing the validation object and schema to the
+`(meta.errors.)error_request_validation()` function for creating API errors.
+
+To make these errors more relevant, the validation schema is extended to include these extra properties (per field):
+
+* `request_type` (required)
+
+Cerberus does not allow the validation schema to be extended so a compatible version needs to be created using the
+`(meta.utils.)get_cerberus_schema` function.
+
+For example, to validate a method (`foo`), with a single request parameter (`bar`), which accepts a controlled list of
+values (`apple` or `orange`):
+
+```python
+@blueprint.route('/foo/<bar>')
+def foo(bar: str):
+    """
+    Example request method
+
+    :type bar: str
+    :param bar: example request parameter
+    """
+
+    # Validate request
+    foo_schema = {
+        'bar': {
+            'type': 'string',
+            'request_type': 'parameter',
+            'required': True,
+            'allowed': ['apple', 'orange']
+        }
+    }
+    foo_document = {'bar': bar}
+    validator = Validator(get_cerberus_schema(foo_schema))
+    if not validator.validate(foo_document):
+        payload = {'errors': error_request_validation(validator, foo_schema)}
+        abort(make_response(jsonify(payload), HTTPStatus.BAD_REQUEST))
+
+    # Rest of method
+    pass
+```
+
+#### `request_type`
+
+Single string value representing where a field appears in a request, for example as a URL parameter or header.
+
+Values are restricted to one of:
+
+| Request Type | Value          | Description            |
+| ------------ | -------------- | ---------------------- |
+| Parameter    | `request_type` | Use for URL parameters |
+
 ### Reserved routes
 
 These routes are reserved and **MUST NOT** be implemented:
@@ -262,6 +320,15 @@ Triggers a generic `400 - Bad Request` error to test the configured error handle
 
 Triggers a generic `500 - Internal Server Error` error to test the configured error handler. Returns a JSON formatted
 error.
+
+#### [POST] `/meta/logging/entries/{logging_level}`
+
+Triggers a hard-coded message to be logged to [Application log](#logging) at the severity given by the `{logging_level}`
+request parameter. This method does not return a response directly.
+
+The `{logging_level}` parameter accepts any logging level, i.e. `debug`, `info`, `warning`, `error`, `critical`.
+
+**Note:** When not running in Flask Debug mode, only messages with a severity of warning of higher will be logged.
 
 ## Testing
 
