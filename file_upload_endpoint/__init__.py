@@ -23,7 +23,9 @@ def create_app(config_name):
         sentry_sdk.init(**app.config['SENTRY_CONFIG'])
     if app.config['APP_ENABLE_CORS']:
         CORS(app, **app.config['CORS_CONFIG'])
-    RequestID(app)
+    if app.config['APP_ENABLE_REQUEST_ID']:
+        RequestID(app)
+
     # Error handlers
     app.register_error_handler(400, error_handler_generic_bad_request)
     app.register_error_handler(404, error_handler_generic_not_found)
