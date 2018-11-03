@@ -79,7 +79,8 @@ def error_too_large(maximum_size: int, request_size: int) -> dict:
         'detail': 'Check the content length of the request is less than the maximum allowed',
         'meta': {
             'maximum_content_length_allowed': maximum_size,
-            'request_content_length': request_size
+            'request_content_length': request_size,
+            'content_length_units': 'bytes'
         }
     }
 

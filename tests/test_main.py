@@ -68,7 +68,8 @@ class MainBlueprintTestCase(unittest.TestCase):
             'status': 413,
             'meta': {
                 'maximum_content_length_allowed': 40960,
-                'request_content_length': 44174
+                'request_content_length': 44174,
+                'content_length_units': 'bytes'
             },
             'title': 'Request content length is too great'
         }
