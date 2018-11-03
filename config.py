@@ -14,6 +14,7 @@ class Config(object):
 
     DEBUG = False
     TESTING = False
+
     APP_ENABLE_SENTRY = str2bool(os.environ.get('APP_ENABLE_SENTRY')) or True
     APP_ENABLE_CORS = str2bool(os.environ.get('APP_ENABLE_CORS')) or True
 

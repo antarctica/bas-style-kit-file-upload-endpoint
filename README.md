@@ -164,12 +164,6 @@ Ensure the [end user usage](#usage) documentation is kept up-to-date as API meth
 
 [1] If in BAS, access to the associated book is available from the Web & Applications Team.
 
-### Reserved routes
-
-These routes are reserved and **MUST NOT** be implemented:
-
-* `/meta/errors/generic-not-found` - used to test the behaviour of a genuine 'not found' URL
-
 ### Code Style
 
 PEP-8 style and formatting guidelines must be used for this project, with the exception of the 80 character line limit.
@@ -242,6 +236,12 @@ application. As with all security tools, Bandit is an aid for spotting common mi
 
 Through [Continuous Integration](#continuous-integration), each commit is tested.
 
+### Reserved routes
+
+These routes are reserved and **MUST NOT** be implemented:
+
+* `/meta/errors/generic-not-found` - used to test the behaviour of a genuine 'not found' URL
+
 ### Internal request methods
 
 Some additional API endpoints are available for development/testing purposes. These endpoints are not documented 
@@ -251,7 +251,7 @@ publicly and should not be relied upon outside of development or testing.
 
 Triggers a generic `400 - Bad Request` error to test the configured error handler. Returns a JSON formatted error.
 
-### [GET] `/meta/errors/generic-internal-server-error`
+#### [GET] `/meta/errors/generic-internal-server-error`
 
 Triggers a generic `500 - Internal Server Error` error to test the configured error handler. Returns a JSON formatted
 error.
