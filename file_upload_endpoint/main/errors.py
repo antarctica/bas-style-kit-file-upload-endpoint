@@ -5,12 +5,23 @@ import sentry_sdk
 from flask import current_app as app
 
 
-def error_no_file(field):
+def error_no_file(field: str) -> dict:
+    """
+    Creates an error for a missing file input in a request
+
+    TODO: Refactor to use validation error [#35]
+
+    :type field: str
+    :param field: Name of the missing file input
+
+    :rtype: dict
+    :return Complete JSON-API compatible error object
+    """
     log_message = f"[{ field }] field missing in request"
     app.logger.warning(log_message)
 
-    # as the API handles this error with this error message it is not reported to Sentry
-    # however, because it's useful for tracking, an event is sent anyway.
+    # As the API handles this error through this error message, it is not reported to Sentry.
+    # However, because it's useful for tracking, we want report it anyway.
     with sentry_sdk.push_scope() as scope:
         scope.set_extra('debug', False)
         sentry_sdk.capture_message(log_message)
@@ -23,12 +34,23 @@ def error_no_file(field):
     }
 
 
-def error_no_file_selection(field):
+def error_no_file_selection(field: str) -> dict:
+    """
+    Creates an error for an empty file input in a request
+
+    TODO: Refactor to use validation error [#35]
+
+    :type field: str
+    :param field: Name of the missing file input
+
+    :rtype: dict
+    :return Complete JSON-API compatible error object
+    """
     log_message = f"[{ field }] field value is an empty selection"
     app.logger.warning(log_message)
 
-    # as the API handles this error with this error message it is not reported to Sentry
-    # however, because it's useful for tracking, an event is sent anyway.
+    # As the API handles this error through this error message, it is not reported to Sentry.
+    # However, because it's useful for tracking, we want report it anyway.
     with sentry_sdk.push_scope() as scope:
         scope.set_extra('debug', False)
         sentry_sdk.capture_message(log_message)
@@ -41,12 +63,26 @@ def error_no_file_selection(field):
     }
 
 
-def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
+def error_wrong_mime_type(valid_mime_types: list, invalid_mime_type: str) -> dict:
+    """
+    Creates an error for an file input in a request that uses an unsupported MIME type
+
+    TODO: Refactor to use validation error [#35]
+
+    :type valid_mime_types: str
+    :param valid_mime_types: List of valid MIME types
+
+    :type invalid_mime_type: str
+    :param invalid_mime_type: Mime type used that is not in the list of valid types
+
+    :rtype: dict
+    :return Complete JSON-API compatible error object
+    """
     log_message = f"File type uploaded, [{ invalid_mime_type }], is not allowed"
     app.logger.warning(log_message)
 
-    # as the API handles this error with this error message it is not reported to Sentry
-    # however, because it's useful for tracking, an event is sent anyway.
+    # As the API handles this error through this error message, it is not reported to Sentry.
+    # However, because it's useful for tracking, we want report it anyway.
     with sentry_sdk.push_scope() as scope:
         scope.set_extra('debug', False)
         sentry_sdk.capture_message(log_message)

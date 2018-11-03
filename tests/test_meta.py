@@ -82,3 +82,16 @@ class MetaBlueprintTestCase(unittest.TestCase):
             json_response['errors'][0]['id'] = 'a611b89f-f1bb-43c5-8efa-913c83c9109e'
 
         self.assertDictEqual(json_response['errors'][0], expected_error)
+
+    def test_meta_logging_levels(self):
+        logging_levels = ['debug', 'info', 'warning', 'error', 'critical']
+        for logging_level in logging_levels:
+            with self.subTest(logging_level=logging_level):
+                with self.assertLogs(self.app.logger, level='DEBUG') as app_logger:
+                    response = self.client.post(f"/meta/logging/entries/{ logging_level }")
+                    self.assertEqual(response.status_code, HTTPStatus.ACCEPTED)
+                    log_found = False
+                    for log_entry in app_logger.output:
+                        if f"{ logging_level } log message - from logging meta endpoint" in log_entry:
+                            log_found = True
+                    self.assertTrue(log_found)
