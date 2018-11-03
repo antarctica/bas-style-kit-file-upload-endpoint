@@ -5,7 +5,13 @@ import sentry_sdk
 from flask import request, make_response, jsonify, current_app as app
 
 
-def error_generic_bad_request():
+def error_generic_bad_request() -> dict:
+    """
+    Creates a generic request error
+
+    :rtype: dict
+    :return: Complete JSON-API compatible error object
+    """
     return {
         'id': uuid4(),
         'status': HTTPStatus.BAD_REQUEST,
@@ -14,7 +20,13 @@ def error_generic_bad_request():
     }
 
 
-def error_generic_not_found():
+def error_generic_not_found() -> dict:
+    """
+    Creates a generic 'not found' error
+
+    :rtype: dict
+    :return: Complete JSON-API compatible error object
+    """
     return {
         'id': uuid4(),
         'status': HTTPStatus.NOT_FOUND,
@@ -23,7 +35,13 @@ def error_generic_not_found():
     }
 
 
-def error_generic_internal_server_error():
+def error_generic_internal_server_error() -> dict:
+    """
+    Creates a generic internal error
+
+    :rtype: dict
+    :return: Complete JSON-API compatible error object
+    """
     return {
         'id': uuid4(),
         'status': HTTPStatus.INTERNAL_SERVER_ERROR,
@@ -32,12 +50,24 @@ def error_generic_internal_server_error():
     }
 
 
-def error_too_large(maximum_size, request_size):
+def error_too_large(maximum_size: int, request_size: int) -> dict:
+    """
+    Creates a 'request too big' error
+
+    :type maximum_size: int
+    :param maximum_size: Maximum content length (in bytes)
+
+    :type request_size: int
+    :param request_size: Content length of request (in bytes)
+
+    :rtype: dict
+    :return: Complete JSON-API compatible error object
+    """
     log_message = f"Request content length, [{ request_size }], is too great"
     app.logger.warning(log_message)
 
-    # as the API handles this error with this error message it is not reported to Sentry
-    # however, because it's useful for tracking, an event is sent anyway.
+    # As the API handles this error through this error message, it is not reported to Sentry.
+    # However, because it's useful for tracking, we want report it anyway.
     with sentry_sdk.push_scope() as scope:
         scope.set_extra('debug', False)
         sentry_sdk.capture_message(log_message)
@@ -55,25 +85,57 @@ def error_too_large(maximum_size, request_size):
 
 
 # noinspection PyUnusedLocal
-def error_handler_generic_bad_request(e):
+def error_handler_generic_bad_request(e: Exception):
+    """
+    Flask error handler for '400 Bad Request' errors
+
+    :type e: Exception
+    :param e: Exception
+
+    :return: Flask response
+    """
     payload = {'errors': [error_generic_bad_request()]}
     return make_response(jsonify(payload), HTTPStatus.BAD_REQUEST)
 
 
 # noinspection PyUnusedLocal
-def error_handler_generic_not_found(e):
+def error_handler_generic_not_found(e: Exception):
+    """
+    Flask error handler for '404 Not Found' errors
+
+    :type e: Exception
+    :param e: Exception
+
+    :return: Flask response
+    """
     payload = {'errors': [error_generic_not_found()]}
     return make_response(jsonify(payload), HTTPStatus.NOT_FOUND)
 
 
 # noinspection PyUnusedLocal
-def error_handler_generic_internal_server_error(e):
+def error_handler_generic_internal_server_error(e: Exception):
+    """
+    Flask error handler for '500 Internal Server Error' errors
+
+    :type e: Exception
+    :param e: Exception
+
+    :return: Flask response
+    """
     payload = {'errors': [error_generic_internal_server_error()]}
     return make_response(jsonify(payload), HTTPStatus.INTERNAL_SERVER_ERROR)
 
 
 # noinspection PyUnusedLocal
-def error_handler_request_entity_too_large(e):
+def error_handler_request_entity_too_large(e: Exception):
+    """
+    Flask error handler for '413 Request Entity Too Large' errors
+
+    :type e: Exception
+    :param e: Exception
+
+    :return: Flask response
+    """
     content_length = request.content_length
     upload_limit = app.config['MAX_CONTENT_LENGTH']
     payload = {'errors': [error_too_large(upload_limit, content_length)]}

@@ -5,7 +5,18 @@ import sentry_sdk
 from flask import current_app as app
 
 
-def error_no_file(field):
+def error_no_file(field: str) -> dict:
+    """
+    Creates an error for a missing file input in a request
+
+    TODO: Refactor to use validation error [#35]
+
+    :type field: str
+    :param field: Name of the missing file input
+
+    :rtype: dict
+    :return Complete JSON-API compatible error object
+    """
     log_message = f"[{ field }] field missing in request"
     app.logger.warning(log_message)
 
@@ -23,7 +34,18 @@ def error_no_file(field):
     }
 
 
-def error_no_file_selection(field):
+def error_no_file_selection(field: str) -> dict:
+    """
+    Creates an error for an empty file input in a request
+
+    TODO: Refactor to use validation error [#35]
+
+    :type field: str
+    :param field: Name of the missing file input
+
+    :rtype: dict
+    :return Complete JSON-API compatible error object
+    """
     log_message = f"[{ field }] field value is an empty selection"
     app.logger.warning(log_message)
 
@@ -41,7 +63,21 @@ def error_no_file_selection(field):
     }
 
 
-def error_wrong_mime_type(valid_mime_types, invalid_mime_type):
+def error_wrong_mime_type(valid_mime_types: list, invalid_mime_type: str) -> dict:
+    """
+    Creates an error for an file input in a request that uses an unsupported MIME type
+
+    TODO: Refactor to use validation error [#35]
+
+    :type valid_mime_types: str
+    :param valid_mime_types: List of valid MIME types
+
+    :type invalid_mime_type: str
+    :param invalid_mime_type: Mime type used that is not in the list of valid types
+
+    :rtype: dict
+    :return Complete JSON-API compatible error object
+    """
     log_message = f"File type uploaded, [{ invalid_mime_type }], is not allowed"
     app.logger.warning(log_message)
 
